@@ -13,3 +13,19 @@
   ([prefix extension]
    (java.io.File/createTempFile prefix extension)))
 
+(defn zip-dir
+  ;; (zip-dir
+  ;;  "hello.zip" "vendor/")
+  [archive-name directory]
+  (with-open [zip (ZipOutputStream. (io/output-stream archive-name))]
+    (doseq [f (file-seq (io/file directory)) :when (.isFile f)]
+      (.putNextEntry zip (ZipEntry. (.getPath f)))
+      (io/copy f zip)
+      (.closeEntry zip))))
+
+(defn copy-uri-to-file [uri file]
+  (with-open [in (clojure.java.io/input-stream uri)
+              out (clojure.java.io/output-stream file)]
+    (clojure.java.io/copy in out)))
+
+

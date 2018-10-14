@@ -18,6 +18,18 @@
   (clojure.walk/keywordize-keys
    (url-codec/form-decode url)))
 
+(defn url-tokenize
+  [some-text]
+  (re-seq  #"[A-Za-z0-9]+" some-text))
+
+(defn slugify
+  [input]
+  (clojure.string/join "_" (url-tokenize (clojure.string/lower-case  input))))
+
+(defn slugify-dash
+  [input]
+  (clojure.string/join "-" (url-tokenize (clojure.string/lower-case  input))))
+
 (defn parse-url-l
   [url]
   (->>
