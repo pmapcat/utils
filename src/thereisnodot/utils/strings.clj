@@ -9,6 +9,10 @@
   (:require [clojure.string :as string]
             [clojure.set :as clj-set]))
 
+(defn- remove-new-lines
+  [datum]
+  (clojure.string/replace datum #"\n+" " "))
+
 (defn lorem-ipsum
   [amount-of-words]
   (let [words (string/split
@@ -52,14 +56,13 @@
   (let [secs
         (/ frames frame-rate)
         hours
-        (.floor Math/floor (/ secs 3600))
+        (Math/floor (/ secs 3600))
         minutes
-        (.floor  (/ (- secs (* hours 3600)) 60))
+        (Math/floor (/ (- secs (* hours 3600)) 60))
         seconds
-        (.floor js/Math (- secs (* hours 3600) (* minutes 60)))
+        (Math/floor (- secs (* hours 3600) (* minutes 60)))
         rest-frames
-        (.floor
-         js/Math
+        (Math/floor
          (- frames
             (* hours  (* frame-rate 3600))
             (* minutes (* frame-rate) 60)

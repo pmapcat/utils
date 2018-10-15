@@ -5,7 +5,7 @@
 ;; @ All rights reserved.                                                               @
 ;; @@@@@@ At 2018-13-10 18:18 <mklimoff222@gmail.com> @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
-(ns wireframe.utils.html
+(ns thereisnodot.utils.html
   (:import [org.unbescape.html HtmlEscape]
            [java.net URLEncoder]))
 

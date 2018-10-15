@@ -54,7 +54,7 @@
     {:header (into [] keyseq)
      :rows
      (for [map-row maps]
-       (map-on-vector keyseq map-row if-empty))}))
+       (map-on-vec keyseq map-row if-empty))}))
 
 (defn- maps->justified-lists
   "Same as maps->header-and-rows, but outputs an array where the first row is the header row"

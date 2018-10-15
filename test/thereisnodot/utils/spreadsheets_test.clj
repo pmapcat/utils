@@ -5,10 +5,10 @@
 ;; @ All rights reserved.                                                               @
 ;; @@@@@@ At 2018-13-10 20:04 <mklimoff222@gmail.com> @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
-(ns thereisnodot.utils.excel-test
+(ns thereisnodot.utils.spreadsheets-test
   (:require [clojure.test :refer :all]
             [thereisnodot.utils.fs :as utils-fs]
-            [thereisnodot.utils.excel :as excel]))
+            [thereisnodot.utils.spreadsheets :as excel]))
 
 (deftest test-extract-keys
   (testing "Basic workage"
@@ -58,7 +58,7 @@
 
 
 (deftest test-maps->excel-workbook!
-  (let [tmpfile (utils-fs/gen-temp-file "whatever" ".xlsx")
+  (let [tmpfile (utils-fs/temp-file "whatever" ".xlsx")
         datum    
         [(str tmpfile)
          {"hello" (list {:hello_world "blab" :blab "hello world"}

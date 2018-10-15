@@ -5,7 +5,7 @@
 ;; @ All rights reserved.                                                               @
 ;; @@@@@@ At 2018-14-10 20:47 <mklimoff222@gmail.com> @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
-(ns utils.scale)
+(ns thereisnodot.utils.scale)
 
 (defn scale-inplace
   [A B C D X]

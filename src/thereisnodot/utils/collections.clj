@@ -100,14 +100,6 @@
      (partition part-size 1 coll)
      (list (concat (last  (partition less-by-one 1  coll)) [nil])))))
 
-(defn keyword-keys-to-int-recursive
-  "Recursively transforms all map keys from keywords to integers.
-   If cannot, leaves the key as it was before, e.g. :keyword"
-  [m]
-  (let [f (fn [[k v]] (if (keyword? k) [(mik-parse-int (str (name k)) k) v] [k v]))]
-    ;; only apply to maps
-    (cljs-walk/postwalk (fn [x] (if (map? x) (into {} (map f x)) x)) m)))
-
 
 (defn list-of-hashmaps->list-of-lists-aligned
   ([datum]
