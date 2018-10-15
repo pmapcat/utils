@@ -4,7 +4,8 @@
 ;; @ You must not remove this notice, or any other, from this software.                 @
 ;; @ All rights reserved.                                                               @
 ;; @@@@@@ At 2018-14-10 20:50 <mklimoff222@gmail.com> @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-(ns utils.numbers
+
+(ns thereisnodot.utils.numbers
   (:require [clojure.pprint :as pprint]))
 
 (defn number-ordinal->english

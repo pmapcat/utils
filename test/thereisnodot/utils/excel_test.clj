@@ -5,10 +5,10 @@
 ;; @ All rights reserved.                                                               @
 ;; @@@@@@ At 2018-13-10 20:04 <mklimoff222@gmail.com> @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
-(ns utils.excel-test
+(ns thereisnodot.utils.excel-test
   (:require [clojure.test :refer :all]
-            [utils.fs :as utils-fs]
-            [utils.excel :as excel]))
+            [thereisnodot.utils.fs :as utils-fs]
+            [thereisnodot.utils.excel :as excel]))
 
 (deftest test-extract-keys
   (testing "Basic workage"
@@ -80,5 +80,3 @@
         (into {} (excel/excel-workbook->lists (first datum)))
         (second datum)))
       (.delete tmpfile))))
-
-

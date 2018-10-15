@@ -5,7 +5,7 @@
 ;; @ All rights reserved.                                                               @
 ;; @@@@@@ At 2018-13-10 18:56 <mklimoff222@gmail.com> @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
-(ns utils.maps
+(ns thereisnodot.utils.collections
   (:require [clojure.set :as clj-set]))
 ;; rename: collections
 
@@ -135,4 +135,24 @@
           :index v
           :last? (= v last-by-index)
           :first? (= v 0)}])))
+
+(defn filter-map-on-val
+  "Sample: (filter-map-on-val #(= % 1) {:1 1 :2 2 :3 3})"
+  [filter-fn some-map]
+  (into
+   {}
+   (filter
+    (fn [[_ val] & item]
+      (filter-fn val))
+    some-map)))
+
+(defn filter-map-on-key
+  [filter-fn some-map]
+  (into
+   {}
+   (filter
+    (fn [[key _] & item]
+      (filter-fn key))
+    some-map)))
+
 

@@ -5,7 +5,9 @@
 ;; @ All rights reserved.                                                               @
 ;; @@@@@@ At 2018-13-10 20:27 <mklimoff222@gmail.com> @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
-(ns utils.fs)
+(ns wireframe.utils.fs
+  (:require [clojure.java.io :as io])
+  (:import  [java.util.zip ZipOutputStream ZipEntry]))
 
 (defn temp-file
   ([]
@@ -14,8 +16,6 @@
    (java.io.File/createTempFile prefix extension)))
 
 (defn zip-dir
-  ;; (zip-dir
-  ;;  "hello.zip" "vendor/")
   [archive-name directory]
   (with-open [zip (ZipOutputStream. (io/output-stream archive-name))]
     (doseq [f (file-seq (io/file directory)) :when (.isFile f)]
@@ -23,9 +23,10 @@
       (io/copy f zip)
       (.closeEntry zip))))
 
-(defn copy-uri-to-file [uri file]
-  (with-open [in (clojure.java.io/input-stream uri)
-              out (clojure.java.io/output-stream file)]
-    (clojure.java.io/copy in out)))
+(defn copy-uri
+  [uri file]
+  (with-open [in (io/input-stream uri)
+              out (io/output-stream file)]
+    (io/copy in out)))
 
 

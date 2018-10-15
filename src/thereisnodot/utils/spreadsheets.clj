@@ -5,10 +5,9 @@
 ;; @ All rights reserved.                                                               @
 ;; @@@@@@ At 2018-13-10 18:04 <mklimoff222@gmail.com> @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
-(ns utils.excel
+(ns thereisnodot.utils.spreadsheets
   (:require [dk.ative.docjure.spreadsheet :as xlsx]
-            [clojure.string :as string]
-            [utils.maps :as maps]))
+            [clojure.string :as string]))
 
 (def ^{:private true
        :doc "Generates 26 x 26 sequence of excel alphabet From :A till :ZZ"} accessors
@@ -29,6 +28,15 @@
    (map xlsx/read-cell)
    (into [])))
 
+(defn- map-on-vec
+  ;; (map-on-vector
+  ;;  ["a" "b" "n"]
+  ;;  {"n" 12 "q" 10}
+  ;;  "n/a")
+  [some-vector some-map or]
+  (for [item some-vector]
+    (get some-map item or)))
+
 (defn- extract-keys
   "Will extract keys from multple maps while preserving order, if exists.
    See tests for samples"
@@ -46,7 +54,7 @@
     {:header (into [] keyseq)
      :rows
      (for [map-row maps]
-       (maps/map-on-vector keyseq map-row if-empty))}))
+       (map-on-vector keyseq map-row if-empty))}))
 
 (defn- maps->justified-lists
   "Same as maps->header-and-rows, but outputs an array where the first row is the header row"
@@ -70,3 +78,26 @@
   [fname-string]
   (for [sheet (xlsx/sheet-seq (xlsx/load-workbook  fname-string))]
     [(xlsx/sheet-name sheet) (rest (xlsx/select-columns (zipmap accessors (map keyword (get-key-names sheet))) sheet))]))
+
+(defn excel-round-down
+  "Excel compatible ROUND formula"
+  ;; (= (excel-round-down 3.2 0)  3.0)
+  ;; (= (excel-round-down 76.9 0) 76.0)
+  ;; (= (excel-round-down 3.14159   3) 3.141)
+  ;; (= (excel-round-down -3.14159, 1) -3.1)
+  ;; (= (excel-round-down 31415.92654, -2) 31400.0)
+  [number digits]
+  (let [sign (if (>  number 0) 1.0 -1.0 )]
+    (* sign (/  (Math/floor (* (Math/abs number) (Math/pow 10 digits))) (Math/pow 10 digits)))))
+
+(defn excel-round-up
+  "Excel compatible ROUND formula"
+  ;; (= (excel-round-up 3.2, 0), 4.0)
+  ;; (= (excel-round-up 76.9, 0), 77.0)
+  ;; (= (excel-round-up 3.14159, 3) 3.142)
+  ;; (= (excel-round-up -3.14159, 1), -3.2)
+  ;; (= (excel-round-up 31415.92654, -2), 31500.0)
+  ;; (= (excel-round-up 100.999, -2), 200.0)
+  [number digits]
+  (let [sign (if (>  number 0) 1.0 -1.0 )]
+    (* sign (/  (Math/ceil (* (Math/abs number) (Math/pow 10 digits))) (Math/pow 10 digits)))))

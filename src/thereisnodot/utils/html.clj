@@ -5,26 +5,13 @@
 ;; @ All rights reserved.                                                               @
 ;; @@@@@@ At 2018-13-10 18:18 <mklimoff222@gmail.com> @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
-(ns utils.html
+(ns wireframe.utils.html
   (:import [org.unbescape.html HtmlEscape]
-           [utils.java.paginator Paginator]
-           [utils.java.cssinliner CSSInliner]
            [java.net URLEncoder]))
 
 (defn html->unescaped-html
   [some-str]
   (HtmlEscape/unescapeHtml some-str))
-
-(defn html->html-with-inlined-css
-  "Will inline CSS styles that are included within given page. 
-   Useful when generating a EMail template"
-  [data-html ]
-  (CSSInliner/inlineStyles data-html))
-
-(defn java-paginate->list-of-pages
-  "int,int -> []string"
-  [cur-page  last-page]
-  (Paginator/Paginate cur-page last-page))
 
 (defmacro yes
   "(yes [] [:hello]) => nil
@@ -33,6 +20,22 @@
   `(if (not (empty? ~field))
      ~@body
      nil))
+
+(defmacro catcher
+  "evaluates body, on error, creates an exception, that binds to a variable declared in
+  [err-binding]. Example 
+  (catcher
+   [blabus]
+   (println (.getMessage blabus))
+   (/ 1 0))"
+  [err-binding on-error & body]
+  (let [err-var (gensym 'error)]
+    (list
+     'try
+     (cons 'do body)
+     (list 'catch 'Exception err-var
+           (list 'let [(first err-binding) err-var] on-error)))))
+
 
 (defmacro case-html
   [[field-binding field] body]
@@ -64,7 +67,6 @@
       {:inverse? inverse?
        :field   (keyword field)})))
 
-
 (defn style
   [link]
   [:link
@@ -95,13 +97,3 @@
    " "
    (for [[k v ] data]
      (format "%s:%s;" (name k) v))))
-
-(defn styles-str->map [style-str]
-  (clojure.walk/keywordize-keys
-   (into {}
-         (map
-          #(clojure.string/split % #":")
-          (clojure.string/split
-           (clojure.string/replace style-str " " "")
-           #";")))))
-

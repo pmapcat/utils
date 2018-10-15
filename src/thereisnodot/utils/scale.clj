@@ -58,6 +58,8 @@
   [items-in-the-biggest-tag items]
   (+ 1/3 (/ (Math/log items) (Math/log items-in-the-biggest-tag) 1.5)))
 
+
+
 (defn log-scale-inplace
   [x1 x2 y1 y2 x]
   (*
@@ -86,29 +88,6 @@
      (> 0 step)
      (* size (Math/pow 0.618 (Math/abs step))))))
 
-(defn excel-round-down
-  "Excel compatible ROUND formula"
-  ;; (= (excel-round-down 3.2 0)  3.0)
-  ;; (= (excel-round-down 76.9 0) 76.0)
-  ;; (= (excel-round-down 3.14159   3) 3.141)
-  ;; (= (excel-round-down -3.14159, 1) -3.1)
-  ;; (= (excel-round-down 31415.92654, -2) 31400.0)
-  [number digits]
-  (let [sign (if (>  number 0) 1.0 -1.0 )]
-    (* sign (/  (Math/floor (* (Math/abs number) (Math/pow 10 digits))) (Math/pow 10 digits)))))
-
-(defn excel-round-up
-  "Excel compatible ROUND formula"
-  ;; (= (excel-round-up 3.2, 0), 4.0)
-  ;; (= (excel-round-up 76.9, 0), 77.0)
-  ;; (= (excel-round-up 3.14159, 3) 3.142)
-  ;; (= (excel-round-up -3.14159, 1), -3.2)
-  ;; (= (excel-round-up 31415.92654, -2), 31500.0)
-  ;; (= (excel-round-up 100.999, -2), 200.0)
-  [number digits]
-  (let [sign (if (>  number 0) 1.0 -1.0 )]
-    (* sign (/  (Math/ceil (* (Math/abs number) (Math/pow 10 digits))) (Math/pow 10 digits)))))
-
 (defn iterate-with-meta
   [data-set]
   (let [last-by-index (dec (count data-set))]
@@ -117,7 +96,6 @@
           :index v
           :last? (= v last-by-index)
           :first? (= v 0)}])))
-
 (defn paginate
   "int,int -> [{:page 2 :cur? false :name \"2\"}]" 
   [current last-item]

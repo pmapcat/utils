@@ -5,7 +5,7 @@
 ;; @ All rights reserved.                                                               @
 ;; @@@@@@ At 2018-13-10 18:38 <mklimoff222@gmail.com> @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
-(ns utils.transliterate)
+(ns thereisnodot.utils.transliterate)
 (def ^{:private true} trans
   [["Ya"  "Я"]
    ["Ja"  "Я"]

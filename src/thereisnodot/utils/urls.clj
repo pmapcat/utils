@@ -5,7 +5,7 @@
 ;; @ All rights reserved.                                                               @
 ;; @@@@@@ At 2018-13-10 18:21 <mklimoff222@gmail.com> @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
-(ns utils.urls
+(ns thereisnodot.utils.urls
   (:require [ring.util.codec :as url-codec]
             [clojure.walk :as walk]))
 
