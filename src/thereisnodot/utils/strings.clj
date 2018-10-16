@@ -7,7 +7,8 @@
 
 (ns thereisnodot.utils.strings
   (:require [clojure.string :as string]
-            [clojure.set :as clj-set]))
+            [clojure.set :as clj-set]
+            [clojure.pprint :as pprint]))
 
 (defn- remove-new-lines
   [datum]
@@ -30,7 +31,7 @@
     #"[^\s]+$"
     "...")))
 
-(defn time-format
+(defn format-frames
   [item]
   (let [zero-formatted
         #(if (and (> % 0) (< % 9)) (str "0" %) %)]
@@ -80,3 +81,45 @@
     (/
      (count (clj-set/intersection a b))
      (count (clj-set/union a b)))))
+
+(defn number-ordinal->english
+  [number-int]
+  (pprint/cl-format nil "~:R" number-int))
+
+(defn number->english
+  [number-int]
+  (pprint/cl-format nil "~R" number-int))
+
+(defn number->roman
+  [number-int]
+  (clojure.pprint/cl-format nil "~@R" number-int))
+
+(defn pluralize->as-s
+  [root-str number-int]
+  (clojure.pprint/cl-format nil (str root-str "~:P") number-int))
+
+(defn pluralize->as-ies
+  [root-str number-int]
+  (clojure.pprint/cl-format nil (str root-str "~:@P") number-int))
+
+(defn human-date
+  [year month day]
+  (str
+   (clojure.string/capitalize (number-ordinal->english day))
+   " of "
+   (clojure.string/capitalize
+    (condp = month
+      1 "january"
+      2 "february"
+      3 "march"
+      4 "april"
+      5 "may"
+      6 "june"
+      7 "july"
+      8 "august"
+      9 "september"
+      10 "october"
+      11 "november"
+      12 "december"))
+   ", " year))
+

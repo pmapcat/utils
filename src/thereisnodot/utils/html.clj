@@ -36,14 +36,6 @@
      (list 'catch 'Exception err-var
            (list 'let [(first err-binding) err-var] on-error)))))
 
-
-(defmacro case-html
-  [[field-binding field] body]
-  `(if (empty? ~field)
-     [:div]
-     (let [~field-binding ~field]
-       ~body)))
-
 (defn gen-layout-class
   [class a b c]
   (for [index  (range)]
@@ -51,8 +43,6 @@
       0 a 
       1 b
       2 c)))
-
-
 
 (defn parse-sorting-field
   "Will parse string in the form: '-age' 

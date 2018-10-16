@@ -7,18 +7,15 @@
 
 (ns thereisnodot.utils.collections
   (:require [clojure.set :as clj-set]))
-;; rename: collections
 
-(defn map-vec
-  ;; (map-on-vector
-  ;;  ["a" "b" "n"]
-  ;;  {"n" 12 "q" 10}
-  ;;  "n/a")
+(defn map-order
+  "Will select keys from a map in a given order"
   [some-vector some-map or]
   (for [item some-vector]
     (get some-map item or)))
 
 (defn map-val
+  "Will execute function over value of the map"
   [f m]
   (zipmap (keys m) (map f (vals m))))
 
@@ -30,7 +27,7 @@
      (if (< (count s) n) (recur (conj s pad-with))  s)))
 
 (defn pad-numbers
-  "Zero Pad numbers - takes a number and the length to pad to as arguments"
+  "Pad numbers - takes a number and the length to pad to as arguments"
   [n c pad-symbol]
   (apply str (pad-coll n (into [] (str c)) pad-symbol)))
 
@@ -54,6 +51,7 @@
              #(nested-group-by (rest fs) % final-fn))))
 
 (defn jaccard
+  "Will calculate Jaccard distance over two sets"
   [a b]
   (/
      (count (clj-set/intersection a b))
@@ -66,79 +64,73 @@
         b (into #{} (clojure.string/split some-another-str #"\s+"))]
     (jaccard a b)))
 
-(defn invert-group
-  "take a group of form {:F [:a :b :n] :Q [:c :d :n]}
-   turn it into a group of form:
-   {:a [:F] :b [:F] :c [:Q] :d [:Q] :n [:F :Q]}"
+(defn invert-map
+  "Turn values into keys and reverse. 
+   Basically, an inverted index. See tests for example"
   [dataset]
   (->>
    dataset
    (reduce
     (fn [prev [k v]]
-      (concat
-       prev
-       (for [item v]
-         [item k]))) [])
+      (concat prev (for [item v] [item k]))) [])
    (group-by first)
-   (map
-    (fn [[key val-list]]
-      [key (mapv last val-list)]))
+   (map (fn [[key val-list]] [key (mapv last val-list)]))
    (into {})))
 
 (defn map-longest
-  ([fn & colls]
-   (let [maximum (apply max  (map count colls))]
-     (apply map fn (map #(take maximum (concat % (repeat nil))) colls)))))
+  "Opposite of map. On multiple collections will iterate until 
+   the longest sequence has no more members.
+   Will hang when used with lazy collections"
+  [fn & colls]
+  (let [maximum (apply max (map count colls))]
+    (apply map fn (map #(take maximum (concat % (repeat nil))) colls))))
 
-(defn partition-with-nil-tails
-  "(println (partition-with-nil-tails 3 (range 10)))
-   => ((nil 0 1) (0 1 2) (1 2 3) (2 3 4) (3 4 5) (4 5 6) (5 6 7) (6 7 8) (7 8 9) (8 9 nil))"
-  [part-size coll]
-  (let [less-by-one (dec part-size)]
-    (concat
-     (list (concat [nil] (first (partition less-by-one 1 coll))))
-     (partition part-size 1 coll)
-     (list (concat (last  (partition less-by-one 1  coll)) [nil])))))
-
-
-(defn list-of-hashmaps->list-of-lists-aligned
+(defn hashmaps->sparse-table
+  "Will turn a list of hashmaps into a sparse table. 
+   Useful when exporting data into a spreadsheet. 
+   First row is a headers row"
   ([datum]
-   (list-of-hashmaps->list-of-lists-aligned datum nil))
+   (hashmaps->sparse-table datum nil))
   ([datum null-type]
-   (list-of-hashmaps->list-of-lists-aligned datum null-type identity))
+   (hashmaps->sparse-table datum null-type identity))
   ([datum null-type order-by]
-   (let [keywords
-         (order-by
-          (reduce
-           (fn [prev next]
-             (apply conj prev (keys next)))
-           #{} datum))]
+   (let [header-items
+         (->> datum
+              (reduce
+               (fn [prev next]
+                 (apply conj prev (keys next)))
+               #{})
+              order-by)]
      (conj
-       (for [item datum]
-         (for [keyword keywords]
-           (keyword item null-type)))
-       (apply list (map name keywords))))))
+      (for [item datum]
+        (for [head header-items]
+          (get item head null-type)))
+      (apply list (map name header-items))))))
 
-(defn iterate-with-meta
+(defn meta-iterate
+  "Provide metadata in the form {:index :last? :first?} on a collection
+   For example:
+   (for [[item {:keys [last? first? index]}] (meta-iterate (range 10 15))]
+     (println item last? first? index))"
   [data-set]
   (let [last-by-index (dec (count data-set))]
     (for [[v k] (map list (range) data-set)]
-      [k {:point k
-          :index v
+      [k {:index v
           :last? (= v last-by-index)
           :first? (= v 0)}])))
 
-(defn filter-map-on-val
-  "Sample: (filter-map-on-val #(= % 1) {:1 1 :2 2 :3 3})"
+(defn filter-map-val
+  "WIll filter on value of a hashmap. See tests for example
+   "
   [filter-fn some-map]
-  (into
-   {}
+  (->>
    (filter
     (fn [[_ val] & item]
       (filter-fn val))
-    some-map)))
+    some-map)
+   (reduce conj {})))
 
-(defn filter-map-on-key
+(defn filter-map-key
   [filter-fn some-map]
   (into
    {}
@@ -146,5 +138,4 @@
     (fn [[key _] & item]
       (filter-fn key))
     some-map)))
-
 
