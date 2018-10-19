@@ -5,7 +5,10 @@
 ;; @ All rights reserved.                                                               @
 ;; @@@@@@ At 2018-15-10 23:23 <mklimoff222@gmail.com> @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
-(ns thereisnodot.utils.css
+(ns
+    ^{:author "Michael Leahcim"
+      :doc    "CSS inliner for HTML"}
+    thereisnodot.utils.css
   (:import [org.jsoup Jsoup]
            [org.jsoup.nodes Document Element]
            [org.jsoup.select Elements Selector]
@@ -34,10 +37,6 @@
 (defn- html->get-attr
   [key html]
   (.attr html key))
-
-(defn- html->text
-  [html]
-  (-> html .getAllElements .get .data))
 
 (defn- remove-new-lines
   [datum]
@@ -70,13 +69,10 @@
     (join-styles $ (:rule item))
     (html->set-attr "style" $ element)))
 
-(defn html->inlined-css-html
-  "Will inline css in a given HTML
-   Available params are: "
-  ([html]
-   (html->inlined-css-html html {}))
-  ([html  params]
-   (let [{:keys [silent? delete-style? strip-class?]} (merge  {:silent? true :strip-class? true :delete-style? true} params)
+
+(defn- html->inlined-css-html-function
+  [html params]
+  (let [{:keys [silent? delete-style? strip-class?]} (merge  {:silent? true :strip-class? true :delete-style? true} params)
          html (string->html html)
          err-collector (atom [])]
      (do
@@ -96,4 +92,13 @@
            (html->del-attr "class" el)))
        (if silent?
          [(html->string html) @err-collector]
-         (html->string html))))))
+         (html->string html)))))
+
+(defn html->inlined-css-html
+  "Will inline css in a given HTML
+   Available params are: 
+   :silent? :strip-class? :delete-style?"
+  ([html]
+   (html->inlined-css-html html {}))
+  ([html  params]
+   (html->inlined-css-html-function html params)))

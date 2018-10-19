@@ -9,14 +9,19 @@
   (:require [clojure.test :refer :all]
             [thereisnodot.utils.collections :as collections]))
 
+(deftest test-inlines-within-namespace
+  (doseq [[symbol access] (ns-publics 'thereisnodot.utils.collections)]
+    (testing (str "Testing inlines of: " symbol)
+      (is (=  (test access) :ok)))))
+
 (deftest test-hashmaps->sparse-table
   (testing "Basic workage"
     (is (=  (collections/hashmaps->sparse-table
              [{:hello "world" :blab "blip" :blop "12"}
               {:1 "asd" :2 "zc" :hello "nothing"}])
-            (list (list "blop" "hello" "1" "blab" "2")
-                  (list "12" "world" nil "blip" nil)
-                  (list nil "nothing" "asd" nil "zc"))))))
+            (list (list "hello" "blab" "blop" "1" "2")
+                  (list "world" "blip" "12" nil nil)
+                  (list "nothing" nil nil "asd" "zc"))))))
 
 (deftest test-map-longest
   (testing "Basic workage"

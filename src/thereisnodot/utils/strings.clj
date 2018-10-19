@@ -1,104 +1,82 @@
 ;; @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-;; @ Copyright (c) Michael Leachim                                                      @
+;; @ Copyright (c) Michael Leahcim                                                      @
 ;; @ You can find additional information regarding licensing of this work in LICENSE.md @
 ;; @ You must not remove this notice, or any other, from this software.                 @
 ;; @ All rights reserved.                                                               @
-;; @@@@@@ At 2018-15-10 21:53 <mklimoff222@gmail.com> @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+;; @@@@@@ At 2018-10-18 19:47 <thereisnodotcollective@gmail.com> @@@@@@@@@@@@@@@@@@@@@@@@
 
-(ns thereisnodot.utils.strings
+(ns ^{:doc "Useful set of string functions"
+      :author "Michael Leahcim"} thereisnodot.utils.strings
   (:require [clojure.string :as string]
             [clojure.set :as clj-set]
+            [thereisnodot.akronim.core :refer [defns]]
             [clojure.pprint :as pprint]))
 
-(defn- remove-new-lines
+(defns remove-new-lines
+  "Will remove new lines from text"
+  [(remove-new-lines "Hello
+                      world") => "Hello                       world"]
   [datum]
   (clojure.string/replace datum #"\n+" " "))
 
-(defn lorem-ipsum
-  [amount-of-words]
-  (let [words (string/split
-               "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?" #" ")]
-    (sort
-     (for [_ (range amount-of-words)]
-       (string/lower-case (rand-nth words))))))
+(defns lorem-ipsum
+  "Generate lorem ipsum of words of a given size
+   Accepts second parameter as a source of randomness. 
+   Default rand-int"
+  [(lorem-ipsum 5 (fn [_] 0)) => (list "sed" "sed" "sed" "sed" "sed")]
+  ([amount-of-words]
+   (lorem-ipsum amount-of-words rand-int))
+  ([amount-of-words rand-fn]
+   (let [words (string/split
+                "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?" #" ")
+         amount (count words)]
+     (sort
+      (for [_ (range amount-of-words)]
+        (string/lower-case (nth words (rand-fn amount))))))))
 
-(defn truncate-words
+(defns truncate-words-by-chars
   "will intelligently truncate (without splitting words, with appending ... in the end, if exists)"
-  [amount input]
-  (string/trim
-   (string/replace-first
-    (apply str (take (- amount 3) (str  input " ")))
-    #"[^\s]+$"
-    "...")))
+  [(truncate-words-by-chars 40  "This is a beautiful sunny day") => "This is a beautiful sunny day"
+   (truncate-words-by-chars 30  "This is a beautiful sunny day") => "This is a beautiful sunny ..."
+   (truncate-words-by-chars 20  "This is a beautiful sunny day") => "This is a ..."
+   (truncate-words-by-chars 10  "This is a beautiful sunny day") => "This ..."]
+  ([amount input]
+   (truncate-words-by-chars amount input "..."))
+  ([amount input ending]
+   (string/trim
+    (string/replace-first
+     (apply str (take (- amount (count ending)) (str  input " ")))
+     #"[^\s]+$" ending))))
 
-(defn format-frames
-  [item]
-  (let [zero-formatted
-        #(if (and (> % 0) (< % 9)) (str "0" %) %)]
-    (when-let
-        [result
-         (str
-          (if (> (:hours item) 0)
-            (str (zero-formatted (:hours item)) "h "))
-          (if (> (:minutes item) 0)
-            (str (zero-formatted (:minutes item)) "m "))
-          (if (> (:seconds item) 0)
-            (str (zero-formatted (:seconds item)) "s "))
-          (if (> (:frames item) 0)
-            (str (zero-formatted (:frames item)) "fr ")))]
-      (if (empty? result) "00:00" result))))
-
-(defn parse-frames
-  "(parse-frames (+ (* 3600 25)
-                 (* 29 60 25)
-                 (* 17 25)
-                 15) 25)"
-  [frames frame-rate]
-  (let [secs
-        (/ frames frame-rate)
-        hours
-        (Math/floor (/ secs 3600))
-        minutes
-        (Math/floor (/ (- secs (* hours 3600)) 60))
-        seconds
-        (Math/floor (- secs (* hours 3600) (* minutes 60)))
-        rest-frames
-        (Math/floor
-         (- frames
-            (* hours  (* frame-rate 3600))
-            (* minutes (* frame-rate) 60)
-            (* seconds frame-rate)))]
-    {:hours   hours
-     :minutes minutes
-     :seconds seconds
-     :frames  rest-frames}))
-
-(defn jaccard
-  "Calculate Jaccard distance between two strings split by space"
-  [some-str some-another-str]
-  (let [a (into #{} (clojure.string/split some-str #"\s+"))
-        b (into #{} (clojure.string/split some-another-str #"\s+"))]
-    (/
-     (count (clj-set/intersection a b))
-     (count (clj-set/union a b)))))
-
-(defn number-ordinal->english
+(defns number-ordinal->english
+  "Number ordinal to English"
+  [(number-ordinal->english 3) => "third"]
   [number-int]
   (pprint/cl-format nil "~:R" number-int))
 
-(defn number->english
+(defns number->english
+  "Number to English"
+  [(number->english 3) => "three"]
   [number-int]
   (pprint/cl-format nil "~R" number-int))
 
-(defn number->roman
+(defns number->roman
+  "Number to Roman"
+  [(number->roman 3) "III"]
   [number-int]
   (clojure.pprint/cl-format nil "~@R" number-int))
 
-(defn pluralize->as-s
+(defns pluralize->as-s
+  "Pluralize English with -s suffix"
+  [(pluralize->as-s "friend" 1) => "friend"
+   (pluralize->as-s "friend" 2) => "friends"]
   [root-str number-int]
   (clojure.pprint/cl-format nil (str root-str "~:P") number-int))
 
-(defn pluralize->as-ies
+(defns pluralize->as-ies
+  "Pluralize English with -ies suffix"
+  [(pluralize->as-ies "strawberr" 1) => "strawberry"
+   (pluralize->as-ies "strawberr" 2) => "strawberries"]
   [root-str number-int]
   (clojure.pprint/cl-format nil (str root-str "~:@P") number-int))
 
@@ -122,4 +100,3 @@
       11 "november"
       12 "december"))
    ", " year))
-

@@ -1,0 +1,14 @@
+name: utils
+root: .
+startup_window: lein
+windows:
+  - lein:
+      panes:
+        - shell:
+            ls
+        - shell2:
+            ls
+        - repl:
+            lein repl
+        - tests:
+            lein test-refresh

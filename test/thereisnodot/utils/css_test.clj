@@ -10,6 +10,29 @@
             [thereisnodot.utils.css :as css])
   (:import [org.jsoup.select Selector$SelectorParseException]))
 
+;; "<style>.demo-class {background:green;}</style>
+;; <div class='demo-class'>Hello</div>"
+;; (println
+;;  (first
+;;   (html->inlined-css-html
+;;    "<div>
+;;      <style>.demo-class {background:green;}</style>
+;;      <div class='demo-class'>Hello</div>
+;;    </div>"
+   
+;; "<html>
+;;  <head></head>
+;;  <body>
+;;   <div>  
+;;    <div style=\"background:green\">
+;;     Hello
+;;    </div> 
+;;   </div> 
+;;  </body>
+;; </html>"
+;; )))
+
+
 (deftest test-html->inlined-css-html
   (let [src (-> "demo.html" clojure.java.io/resource slurp)]
     (testing "General workage. (Demo expects some @media errors). But, nevertheless, output should exist"

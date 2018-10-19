@@ -1,9 +1,9 @@
 ;; @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-;; @ Copyright (c) Michael Leachim                                                      @
+;; @ Copyright (c) Michael Leahcim                                                      @
 ;; @ You can find additional information regarding licensing of this work in LICENSE.md @
 ;; @ You must not remove this notice, or any other, from this software.                 @
 ;; @ All rights reserved.                                                               @
-;; @@@@@@ At 2018-13-10 18:38 <mklimoff222@gmail.com> @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+;; @@@@@@ At 2018-10-18 19:54 <thereisnodotcollective@gmail.com> @@@@@@@@@@@@@@@@@@@@@@@@
 
 (ns thereisnodot.utils.transliterate)
 (def ^{:private true} trans
