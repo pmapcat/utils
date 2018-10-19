@@ -1,5 +1,5 @@
 (defproject thereisnodot/utils "0.1.0-SNAPSHOT"
-  :description "Utils: Spreadsheet"
+  :description "A set of useful functions for Clojure programming language: Spreadsheet, Scaling, Pagination, Markdown and others"
   :url "https://github.com/michaelleachim/utils"
   :license {:name "Eclipse Public License"
             :url "http://www.eclipse.org/legal/epl-v10.html"}
