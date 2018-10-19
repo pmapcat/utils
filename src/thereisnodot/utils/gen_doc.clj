@@ -30,22 +30,18 @@
 (defn- gen-single-fn
   [{:keys [name arglists doc ns name] :as datum}]
   (format
-   " ### %s
-
+   "### %s
 ```clojure
 %s
 ```
-
 %s
-
 Usage:
-
 ```clojure
-
 (require '[%s :refer [%s]])
-
 %s
 ```
+
+
 
 " name (gen-params name arglists) doc ns name (gen-example (:akronim/example datum))))
 
@@ -76,7 +72,7 @@ Usage:
      (.replace "{{html}}"          (gen-template-on-ns 'thereisnodot.utils.html))
      (.replace "{{transliterate}}" (gen-template-on-ns 'thereisnodot.utils.transliterate))
      (.replace "{{fs}}"            (gen-template-on-ns 'thereisnodot.utils.fs)))))
-
-(spit "README.md" (wrap-replace-make))
+(comment
+  (spit "README.md" (wrap-replace-make)))
 
 
