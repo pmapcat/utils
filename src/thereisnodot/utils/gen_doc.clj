@@ -9,15 +9,16 @@
     ^{:doc "A documentation generation system"
       :author "Michael Leachim"}
     thereisnodot.utils.gen-doc
-  )
-(def sample-meta (meta (last (first  ))))
+  (:require [zprint.core :as zp]))
+
 (defn- gen-example
   [item-meta]
   (clojure.string/trim-newline
    (apply
     str
     (for [[fn-call _ result] item-meta]
-      (str fn-call "\n;; => "  result "\n\n")))))
+      
+      (str (zp/zprint-str  (read-string fn-call) 50) "\n;; => "  (zp/zprint-str  (read-string result) 50) "\n\n")))))
 
 (defn- gen-params
   [item-name arglist]
@@ -72,6 +73,7 @@ Usage:
      (.replace "{{html}}"          (gen-template-on-ns 'thereisnodot.utils.html))
      (.replace "{{transliterate}}" (gen-template-on-ns 'thereisnodot.utils.transliterate))
      (.replace "{{fs}}"            (gen-template-on-ns 'thereisnodot.utils.fs)))))
+
 (comment
   (spit "README.md" (wrap-replace-make)))
 

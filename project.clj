@@ -8,6 +8,8 @@
                  [org.unbescape/unbescape "1.0"]
                  [org.jsoup/jsoup "1.8.3"]                 
                  [ring/ring-codec "1.1.1"]
+                 [clojure-future-spec "1.9.0-alpha17"]
+                 [zprint "0.4.10"]
                  [thereisnodot/akronim "0.1.1"]
                  [com.atlassian.commonmark/commonmark "0.11.0"]
                  [com.atlassian.commonmark/commonmark-ext-gfm-tables "0.11.0"]
