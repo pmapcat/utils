@@ -1,4 +1,4 @@
-# utils
+# utils WIP
 
 A set of useful functions for Clojure programming language
 Spreadsheet, Scaling, Pagination, Markdown and others
