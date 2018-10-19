@@ -10,7 +10,9 @@
       :author "Michael Leachim"}
     thereisnodot.utils.gen-doc
   (:require [zprint.core :as zp]))
-
+(defn- multiline-comment
+  [some-item]
+  (clojure.string/replace some-item #"\n" "\n;;    "))
 (defn- gen-example
   [item-meta]
   (clojure.string/trim-newline
@@ -18,7 +20,7 @@
     str
     (for [[fn-call _ result] item-meta]
       
-      (str (zp/zprint-str  (read-string fn-call) 50) "\n;; => "  (zp/zprint-str  (read-string result) 50) "\n\n")))))
+      (str (zp/zprint-str  (read-string fn-call) 50) "\n;; => "  (multiline-comment (zp/zprint-str  (read-string result) 50)) "\n\n")))))
 
 (defn- gen-params
   [item-name arglist]
@@ -74,7 +76,8 @@ Usage:
      (.replace "{{transliterate}}" (gen-template-on-ns 'thereisnodot.utils.transliterate))
      (.replace "{{fs}}"            (gen-template-on-ns 'thereisnodot.utils.fs)))))
 
+
+
 (comment
   (spit "README.md" (wrap-replace-make)))
-
 

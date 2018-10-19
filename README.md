@@ -37,8 +37,8 @@ Usage:
   [{:hello "world", :blab "blip", :blop "12"}
    {:1 "asd", :2 "zc", :hello "nothing"}])
 ;; => (list (list "hello" "blab" "blop" "1" "2")
-      (list "world" "blip" "12" nil nil)
-      (list "nothing" nil nil "asd" "zc"))
+;;          (list "world" "blip" "12" nil nil)
+;;          (list "nothing" nil nil "asd" "zc"))
 
 (hashmaps->sparse-table
   [{:name "hello", :surname "world"}
@@ -48,8 +48,8 @@ Usage:
   "n/a"
   [:whatever :name :surname])
 ;; => (list (list "whatever" "name" "surname")
-      (list "n/a" "hello" "world")
-      (list "blop" "blab" "blip"))
+;;          (list "n/a" "hello" "world")
+;;          (list "blop" "blab" "blip"))
 ```
 
 
@@ -67,9 +67,9 @@ Usage:
                                             14))]
   [item meta-item])
 ;; => (list [10 {:index 0, :last? false, :first? true}]
-      [11 {:index 1, :last? false, :first? false}]
-      [12 {:index 2, :last? false, :first? false}]
-      [13 {:index 3, :last? true, :first? false}])
+;;          [11 {:index 1, :last? false, :first? false}]
+;;          [12 {:index 2, :last? false, :first? false}]
+;;          [13 {:index 3, :last? true, :first? false}])
 ```
 
 
@@ -90,10 +90,10 @@ Usage:
              (range 1 3)
              (range 10 15))
 ;; => (list (list 1 1 10)
-      (list 2 2 11)
-      (list 3 nil 12)
-      (list 4 nil 13)
-      (list 5 nil 14))
+;;          (list 2 2 11)
+;;          (list 3 nil 12)
+;;          (list 4 nil 13)
+;;          (list 5 nil 14))
 ```
 
 
@@ -229,8 +229,8 @@ Usage:
   [["A" 2011 "Dan"] ["A" 2011 "Jon"]
    ["A" 2010 "Tim"] ["B" 2009 "Tom"]])
 ;; => {"A" {2010 [["A" 2010 "Tim"]],
-      2011 [["A" 2011 "Dan"] ["A" 2011 "Jon"]]},
- "B" {2009 [["B" 2009 "Tom"]]}}
+;;          2011 [["A" 2011 "Dan"] ["A" 2011 "Jon"]]},
+;;     "B" {2009 [["B" 2009 "Tom"]]}}
 ```
 
 
@@ -249,7 +249,7 @@ Usage:
 
 (pad-coll 10 [3 4] "n/a")
 ;; => [3 4 "n/a" "n/a" "n/a" "n/a" "n/a" "n/a" "n/a"
- "n/a"]
+;;     "n/a"]
 ```
 
 
@@ -289,11 +289,11 @@ Usage:
              2 ["not" "important"],
              3 ["very" "important" "thing"]})
 ;; => {"hello" [1],
- "important" [2 3],
- "not" [2],
- "thing" [3],
- "very" [3],
- "world" [1]}
+;;     "important" [2 3],
+;;     "not" [2],
+;;     "thing" [3],
+;;     "very" [3],
+;;     "world" [1]}
 ```
 
 
@@ -329,30 +329,30 @@ Usage:
 (require '[thereisnodot.utils.scale :refer [paginate]])
 (paginate 1 3)
 ;; => (list {:page-num 1,
-       :name "1",
-       :cur? true,
-       :first? true,
-       :last? false}
-      {:page-num 2,
-       :name "2",
-       :cur? false,
-       :first? false,
-       :last? false}
-      {:page-num 3,
-       :name "3",
-       :cur? false,
-       :first? false,
-       :last? true})
+;;           :name "1",
+;;           :cur? true,
+;;           :first? true,
+;;           :last? false}
+;;          {:page-num 2,
+;;           :name "2",
+;;           :cur? false,
+;;           :first? false,
+;;           :last? false}
+;;          {:page-num 3,
+;;           :name "3",
+;;           :cur? false,
+;;           :first? false,
+;;           :last? true})
 
 (map :name (paginate 37 40))
 ;; => (list "1" "..." "35" "36" "37" "38" "39" "40")
 
 (map :name (paginate 12 30))
 ;; => (list "1"
-      "..." "10"
-      "11" "12"
-      "13" "14"
-      "..." "30")
+;;          "..." "10"
+;;          "11" "12"
+;;          "13" "14"
+;;          "..." "30")
 ```
 
 
@@ -486,10 +486,10 @@ Usage:
 (map (partial tag-font-log-normalized 10)
   (range 1 10))
 ;; => (list 0.33
-      0.53 0.65
-      0.73 0.79
-      0.85 0.89
-      0.93 0.96)
+;;          0.53 0.65
+;;          0.73 0.79
+;;          0.85 0.89
+;;          0.93 0.96)
 ```
 
 
@@ -741,10 +741,10 @@ Usage:
       (gen-layout-class 3 "left"
                         "justify" "right"))
 ;; => (list "left"
-      "justify" "right"
-      "left" "justify"
-      "right" "left"
-      "justify" "right")
+;;          "justify" "right"
+;;          "left" "justify"
+;;          "right" "left"
+;;          "justify" "right")
 ```
 
 
@@ -823,13 +823,13 @@ Usage:
 (require '[thereisnodot.utils.html :refer [grid-amount]])
 (map (partial grid-amount 16) (range 16))
 ;; => (list "0.0%" "6.25%"
-      "12.5%" "18.75%"
-      "25.0%" "31.25%"
-      "37.5%" "43.75%"
-      "50.0%" "56.25%"
-      "62.5%" "68.75%"
-      "75.0%" "81.25%"
-      "87.5%" "93.75%")
+;;          "12.5%" "18.75%"
+;;          "25.0%" "31.25%"
+;;          "37.5%" "43.75%"
+;;          "50.0%" "56.25%"
+;;          "62.5%" "68.75%"
+;;          "75.0%" "81.25%"
+;;          "87.5%" "93.75%")
 ```
 
 
@@ -845,9 +845,9 @@ Usage:
 (require '[thereisnodot.utils.html :refer [style]])
 (style "some-link.css")
 ;; => [:link
- {:href "some-link.css",
-  :rel "stylesheet",
-  :type "text/css"}]
+;;     {:href "some-link.css",
+;;      :rel "stylesheet",
+;;      :type "text/css"}]
 ```
 
 
