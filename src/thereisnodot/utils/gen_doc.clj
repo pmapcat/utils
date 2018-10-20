@@ -50,9 +50,10 @@
 (defn- gen-template-on-ns
   [namespace]
   (clojure.string/join
-   "\n"
+   ""
    (for [[_ reference] (ns-publics namespace)]
-     (gen-single-fn (meta reference)))))
+     (when (:test (meta reference))
+       (str (gen-single-fn (meta reference)) "\n")))))
 
 (require '[thereisnodot.utils.scale]
          '[thereisnodot.utils.collections]
@@ -61,22 +62,26 @@
          '[thereisnodot.utils.html]
          '[thereisnodot.utils.transliterate]
          '[thereisnodot.utils.fs]
-         '[thereisnodot.utils.reading-time])
+         '[thereisnodot.utils.reading-time]
+         '[thereisnodot.utils.markdown]
+         '[thereisnodot.utils.spreadsheets])
 
 (defn- wrap-replace-make
   []
   (let [template (slurp  (clojure.java.io/resource "README_template.md"))]
     (->
      template
-     
      (.replace "{{scale}}"         (gen-template-on-ns 'thereisnodot.utils.scale))
+     (.replace "{{markdown}}"      (gen-template-on-ns 'thereisnodot.utils.markdown))
      (.replace "{{collections}}"   (gen-template-on-ns 'thereisnodot.utils.collections))
      (.replace "{{strings}}"       (gen-template-on-ns 'thereisnodot.utils.strings))
      (.replace "{{framerate}}"     (gen-template-on-ns 'thereisnodot.utils.framerate))
      (.replace "{{html}}"          (gen-template-on-ns 'thereisnodot.utils.html))
      (.replace "{{transliterate}}" (gen-template-on-ns 'thereisnodot.utils.transliterate))
      (.replace "{{reading}}"       (gen-template-on-ns 'thereisnodot.utils.reading-time))
+     (.replace "{{spreadsheets}}"  (gen-template-on-ns 'thereisnodot.utils.spreadsheets))
      (.replace "{{fs}}"            (gen-template-on-ns 'thereisnodot.utils.fs)))))
+
 
 (defn- gen-list-of-toc
   [datum]

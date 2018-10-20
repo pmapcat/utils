@@ -5,7 +5,13 @@
 ;; @ All rights reserved.                                                               @
 ;; @@@@@@ At 2018-10-18 19:54 <thereisnodotcollective@gmail.com> @@@@@@@@@@@@@@@@@@@@@@@@
 
-(ns thereisnodot.utils.transliterate)
+(ns
+    ^{:doc "Transliteration package. Contains cyrilic->latin and latin->cyrilic 
+            transliterations "
+      :author "Michael Leahcim"}
+    thereisnodot.utils.transliterate
+  (:require [thereisnodot.akronim.core :refer [defns]]))
+
 (def ^{:private true} trans
   [["Ya"  "Я"]
    ["Ja"  "Я"]
@@ -22,9 +28,9 @@
    ["Ch"  "Ч"]
    ["ch"  "ч"]
    ["Shh"  "Щ"]
-   ["W"  "Щ"]
+   ["W"  "В"]
    ["shh"  "щ"]
-   ["w"  "щ"]
+   ["w"  "в"]
    ["Sh"  "Ш"]
    ["sh"  "ш"]
    ["Zh"  "Ж"]
@@ -104,10 +110,19 @@
     trans)
    #"[`'#]+",""))
 
-(defn latin-str->cyrillic
+
+(defns latin-str->cyrillic
+  "Primitive transliteration of latin to cyrillic"
+  [(latin-str->cyrillic "Hello world") => "Хелло ворлд"
+   (latin-str->cyrillic "Nothing works") => "Нотхинг воркс"
+   (latin-str->cyrillic "Foo bar") => "Фоо бар"]
   [phrase-str]
   (trans-cyrillic-latin phrase-str "en-ru"))
 
-(defn cyrillic-str->latin
+(defns cyrillic-str->latin
+  "Primitive transliteration of cyrillic to latin."
+  [(cyrillic-str->latin "Хелло ворлд" ) => "Hello world"
+   (cyrillic-str->latin "Нотхинг воркс") => "Nothing worx"
+   (cyrillic-str->latin "Фоо бар" ) => "Foo bar"]
   [phrase-str]
   (trans-cyrillic-latin phrase-str "ru-en"))

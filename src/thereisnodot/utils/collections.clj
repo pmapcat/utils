@@ -184,7 +184,7 @@
 
 (defns filter-map-val
   "WIll filter on value of a hashmap"
-  [(filter-map-val #(= % 1) {:1 1 :2 2 :3 3}) => {:1 1}]
+  [(filter-map-val (fn [item] (= item 1)) {:1 1 :2 2 :3 3}) => {:1 1}]
   [filter-fn some-map]
   (->>
    (filter
@@ -195,7 +195,7 @@
 
 (defns filter-map-key
   "Will filter on key of a hashmap"
-  [(filter-map-key #(= % :1) {:1 1 :2 2 :3 3}) =>  {:1 1}]
+  [(filter-map-key (fn [item] (= item :1)) {:1 1 :2 2 :3 3}) =>  {:1 1}]
   [filter-fn some-map]
   (into
    {}

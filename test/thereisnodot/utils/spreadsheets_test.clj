@@ -10,6 +10,13 @@
             [thereisnodot.utils.fs :as utils-fs]
             [thereisnodot.utils.spreadsheets :as excel]))
 
+(deftest test-inlines-within-namespace
+  (doseq [[symbol access] (ns-publics 'thereisnodot.utils.spreadsheets)]
+    (when (:test (meta access))
+      (testing (str "Testing inlines of: " symbol)
+        (is (=  (test access) :ok))))))
+
+
 (deftest test-extract-keys
   (testing "Basic workage"
     (is
@@ -44,39 +51,39 @@
        (list "n/a" "hello" "world")
        (list "blop" "blab" "blip"))))))
 
-(deftest test-excel-workbook->lists
+(deftest test-excel-slurp
   (testing "Basic workage"
     (is
      (=
-      (excel/excel-workbook->lists (.getFile (clojure.java.io/resource "demo.xlsx")))
-      (list
+      (excel/excel-slurp (.getFile (clojure.java.io/resource "demo.xlsx")))
+      {"Sheet1"
        (list
-        "Sheet1"
-        (list
-         {:KeyName "Value1", :Key2 "Value3", :Key3 "Value5"}
-         {:KeyName "Value2", :Key2 "Value4", :Key3 "Value6"})))))))
+        {:KeyName "Value1", :Key2 "Value3", :Key3 "Value5"}
+        {:KeyName "Value2", :Key2 "Value4", :Key3 "Value6"})}))))
 
-
-(deftest test-maps->excel-workbook!
+(deftest test-excel-spit
   (let [tmpfile (utils-fs/temp-file "whatever" ".xlsx")
         datum    
         [(str tmpfile)
          {"hello" (list {:hello_world "blab" :blab "hello world"}
-                       {:hello_world "blab" :blab "hello world"}
-                       {:hello_world "blab" :blab "hello world"}
-                       {:hello_world "blab" :blab "hello world"})
+                        {:hello_world "blab" :blab "hello world"}
+                        {:hello_world "blab" :blab "hello world"}
+                        {:hello_world "blab" :blab "hello world"})
+          
           "world"  (list {:nasty "things" :says "behemoth"}
-                        {:nasty "things" :says "behemoth"}
-                        {:nasty "things" :says "behemoth"}
-                        {:nasty "things" :says "behemoth"})
+                         {:nasty "things" :says "behemoth"}
+                         {:nasty "things" :says "behemoth"}
+                         {:nasty "things" :says "behemoth"})
+          
           "begemoth" (list {:is "about" :to "exist"}
-                          {:is "about" :to "exist"}
-                          {:is "about" :to "exist"}
-                          {:is "about" :to "exist"})} "n/a" []]]
+                           {:is "about" :to "exist"}
+                           {:is "about" :to "exist"}
+                           {:is "about" :to "exist"})} "n/a" []]]
+    
     (testing "Basic workage"
-      (apply excel/maps->excel-workbook! datum)
+      (apply excel/excel-spit datum)
       (is
        (=
-        (into {} (excel/excel-workbook->lists (first datum)))
+        (into {} (excel/excel-slurp (first datum)))
         (second datum)))
       (.delete tmpfile))))

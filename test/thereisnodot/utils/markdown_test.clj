@@ -1,6 +1,12 @@
-(ns thereisnodot.utils.markdown
+(ns thereisnodot.utils.markdown-test
   (:require [clojure.test :refer :all]
             [thereisnodot.utils.markdown :as markdown]))
+
+(deftest test-inlines-within-namespace
+  (doseq [[symbol access] (ns-publics 'thereisnodot.utils.markdown)]
+    (when (:test (meta access))
+      (testing (str "Testing inlines of: " symbol)
+        (is (=  (test access) :ok))))))
 
 (deftest test-text->html
   (testing "General workage"
