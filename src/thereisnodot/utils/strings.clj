@@ -62,7 +62,7 @@
 
 (defns number->roman
   "Number to Roman"
-  [(number->roman 3) "III"]
+  [(number->roman 3) => "III"]
   [number-int]
   (clojure.pprint/cl-format nil "~@R" number-int))
 
@@ -80,7 +80,11 @@
   [root-str number-int]
   (clojure.pprint/cl-format nil (str root-str "~:@P") number-int))
 
-(defn human-date
+(defns human-date
+  "Will make a human readable date"
+  [(human-date 2017 12 12) => "Twelfth of December, 2017"
+   (human-date 2000 10 10) => "Tenth of October, 2000"
+   (human-date 2000 01 01) => "First of January, 2000"]
   [year month day]
   (str
    (clojure.string/capitalize (number-ordinal->english day))

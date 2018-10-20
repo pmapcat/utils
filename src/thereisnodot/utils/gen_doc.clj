@@ -32,19 +32,14 @@
 (defn- gen-single-fn
   [{:keys [name arglists doc ns name] :as datum}]
   (format
-   "#### %s
-```clojure
-%s
-```
+   "**%s** `%s`
 %s
 Usage:
 ```clojure
 (require '[%s :refer [%s]])
 %s
 ```
-
-
-
+<hr>
 " name (gen-params name arglists) doc ns name (gen-example (:akronim/example datum))))
 
 (defn- gen-template-on-ns
