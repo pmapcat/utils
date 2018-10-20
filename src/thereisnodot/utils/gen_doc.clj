@@ -33,8 +33,8 @@
   [{:keys [name arglists doc ns name] :as datum}]
   (format
    "**%s** `%s`<br>
-%s
-Usage:
+%s<br>
+**Usage:**
 ```clojure
 (require '[%s :refer [%s]])
 %s
