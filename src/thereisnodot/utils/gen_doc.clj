@@ -32,7 +32,7 @@
 (defn- gen-single-fn
   [{:keys [name arglists doc ns name] :as datum}]
   (format
-   "**%s** `%s`
+   "**%s** `%s`<br>
 %s
 Usage:
 ```clojure
