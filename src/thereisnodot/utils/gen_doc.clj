@@ -27,12 +27,12 @@
    (apply
     str
     (for [i arglist]
-      (str (cons item-name i) "\n")))))
+      (str "`" (cons item-name i) "`" "\n")))))
 
 (defn- gen-single-fn
   [{:keys [name arglists doc ns name] :as datum}]
   (format
-   "**%s**<br>`%s`<br>
+   "**%s**<br>%s<br>
 %s<br>
 **Usage:**
 ```clojure
