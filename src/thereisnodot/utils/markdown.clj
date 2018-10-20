@@ -54,12 +54,12 @@
    This is a thin wrapper over: https://github.com/atlassian/commonmark-java
    The following extensions are enabled by default:
 
-     * Yaml metadata extraction `YamlFrontMatterExtension`
-     * `InsExtension`. Underlining of text by enclosing it in ++.
-     * Heading anchors via `HeadingAnchorExtension`
-     * Tables using pipes, as in: [Github Flavored Markdown](https://help.github.com/articles/organizing-information-with-tables/)
-     * Strikethrough of text by enclosing it in ~~ via `StrikethroughExtension`
-     * Autolink: turns plain links such as URLS into links via `AutolinkExtension`
+   * Yaml metadata extraction `YamlFrontMatterExtension`
+   * `InsExtension`. Underlining of text by enclosing it in ++.
+   * Heading anchors via `HeadingAnchorExtension`
+   * Tables using pipes, as in: [Github Flavored Markdown](https://help.github.com/articles/organizing-information-with-tables/)
+   * Strikethrough of text by enclosing it in ~~ via `StrikethroughExtension`
+   * Autolink: turns plain links such as URLS into links via `AutolinkExtension`
 
    The main reason behind using wrapper because 
    commonmark implementation doesn't have problems with embedded HTML parsing. 
