@@ -60,6 +60,20 @@ for generation mechanics
 
 {{fs}}
 
+## Development
+
+This will clone the repo and start running REPL
+and a test watcher/runner
+
+```clojure
+
+git clone github.com/MichaelLeachim/utils;
+cd utils;
+tmuxinator .
+
+```
+
+
 ## License
 
 Copyright © 2018 Michael Leahcim

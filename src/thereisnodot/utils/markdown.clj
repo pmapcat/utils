@@ -64,7 +64,7 @@
    The main reason behind using wrapper because 
    commonmark implementation doesn't have problems with embedded HTML parsing. 
 
-   The parameters currently only encode :keywordize-keys? field"
+   The parameters currently only encode `:keywordize-keys?` field"
   [(text->html "
 ---
 hello: world
