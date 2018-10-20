@@ -8,7 +8,8 @@
 (ns
     ^{:doc "A documentation generation system"
       :author "Michael Leachim"}
-    thereisnodot.utils.gen-doc)
+    thereisnodot.utils.gen-doc
+  (:require [thereisnodot.utils.strings :as str-utils]))
 
 (defn- multiline-comment
   [some-item]
@@ -66,6 +67,7 @@
   (let [template (slurp  (clojure.java.io/resource "README_template.md"))]
     (->
      template
+     
      (.replace "{{scale}}"         (gen-template-on-ns 'thereisnodot.utils.scale))
      (.replace "{{collections}}"   (gen-template-on-ns 'thereisnodot.utils.collections))
      (.replace "{{strings}}"       (gen-template-on-ns 'thereisnodot.utils.strings))
@@ -74,8 +76,27 @@
      (.replace "{{transliterate}}" (gen-template-on-ns 'thereisnodot.utils.transliterate))
      (.replace "{{fs}}"            (gen-template-on-ns 'thereisnodot.utils.fs)))))
 
+(defn- gen-list-of-toc
+  [datum]
+  (for [[_ hashtag title] (filter (comp not nil?) (map #(re-matches #"^([#]+)(.*)$" %) (clojure.string/split-lines datum)))]
+    [hashtag title]))
+
+(defn- gen-toc
+  [datum]
+  (.replace
+   datum
+   "{{toc}}"
+   (str
+    (clojure.string/join
+     "\n"
+     (for [[header title] (gen-list-of-toc datum)]
+       (str
+        (apply str (repeat  (count header) " "))
+        " * "
+        "["  (clojure.string/trim title) "]"
+        "(#" (str-utils/slugify title) ")"))))))
+
+
 (comment
-  (let [testfn (:test (meta (last (first (ns-publics 'thereisnodot.utils.scale)))))]
-    (zp/zprint-fn testfn))
-  (spit "README.md" (wrap-replace-make)))
+  (spit "README.md"  (gen-toc (wrap-replace-make))))
 

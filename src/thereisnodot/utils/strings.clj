@@ -6,11 +6,13 @@
 ;; @@@@@@ At 2018-10-18 19:47 <thereisnodotcollective@gmail.com> @@@@@@@@@@@@@@@@@@@@@@@@
 
 (ns ^{:doc "Useful set of string functions"
-      :author "Michael Leahcim"} thereisnodot.utils.strings
+      :author "Michael Leahcim"}
+    thereisnodot.utils.strings
   (:require [clojure.string :as string]
             [clojure.set :as clj-set]
             [thereisnodot.akronim.core :refer [defns]]
             [clojure.pprint :as pprint]))
+
 
 (defns remove-new-lines
   "Will remove new lines from text"
@@ -18,6 +20,21 @@
                       world") => "Hello                       world"]
   [datum]
   (clojure.string/replace datum #"\n+" " "))
+
+(defns slugify
+  "Will slugify given string. Will remove non ASCII characters"
+  [(slugify "Will slugify given string.") => "will-slugify-given-string"
+   (slugify "Это не работает") => ""
+   (slugify "whatever whoever" "_") => "whatever_whoever"]
+  ([some-text]
+   (slugify some-text "-"))
+  ([some-text split-kind]
+   (->>
+    some-text
+    (clojure.string/lower-case)
+    (re-seq  #"[A-Za-zА-Яа-я]+")
+    (clojure.string/join split-kind))))
+
 
 (defns lorem-ipsum
   "Generate lorem ipsum of words of a given size
