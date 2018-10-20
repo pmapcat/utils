@@ -32,8 +32,8 @@
 
 (defn- gen-single-fn
   [{:keys [name arglists doc ns name] :as datum}]
-  (format "### %s [top](#table-of-contents)
-
+  (format "### %s 
+[top](#table-of-contents)
 %s
 
 %s
