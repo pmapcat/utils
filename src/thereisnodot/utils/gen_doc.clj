@@ -32,7 +32,7 @@
 
 (defn- gen-single-fn
   [{:keys [name arglists doc ns name] :as datum}]
-  (format "### %s
+  (format "### %s [top](#table-of-contents)
 
 %s
 
@@ -60,7 +60,8 @@
          '[thereisnodot.utils.framerate]
          '[thereisnodot.utils.html]
          '[thereisnodot.utils.transliterate]
-         '[thereisnodot.utils.fs])
+         '[thereisnodot.utils.fs]
+         '[thereisnodot.utils.reading-time])
 
 (defn- wrap-replace-make
   []
@@ -74,6 +75,7 @@
      (.replace "{{framerate}}"     (gen-template-on-ns 'thereisnodot.utils.framerate))
      (.replace "{{html}}"          (gen-template-on-ns 'thereisnodot.utils.html))
      (.replace "{{transliterate}}" (gen-template-on-ns 'thereisnodot.utils.transliterate))
+     (.replace "{{reading}}"       (gen-template-on-ns 'thereisnodot.utils.reading-time))
      (.replace "{{fs}}"            (gen-template-on-ns 'thereisnodot.utils.fs)))))
 
 (defn- gen-list-of-toc
