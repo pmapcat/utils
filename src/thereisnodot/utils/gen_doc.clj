@@ -43,7 +43,8 @@
 
 %s
 ```
-<hr>" name (gen-params name arglists) doc ns name (gen-example (:akronim/example datum))))
+<hr>
+" name (gen-params name arglists) doc ns name (gen-example (:akronim/example datum))))
 
 (defn- gen-template-on-ns
   [namespace]
@@ -76,7 +77,5 @@
 (comment
   (let [testfn (:test (meta (last (first (ns-publics 'thereisnodot.utils.scale)))))]
     (zp/zprint-fn testfn))
-
-  
   (spit "README.md" (wrap-replace-make)))
 

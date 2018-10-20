@@ -49,6 +49,7 @@ Will turn a list of hashmaps into a sparse table.
 ;;          (list "blop" "blab" "blip"))
 ```
 <hr>
+
 ### meta-iterate
 
 `(meta-iterate data-set)`
@@ -66,6 +67,7 @@ Provide metadata in the form {:index :last? :first?} on a collection
 ;;          [13 {:index 3, :last? true, :first? false}])
 ```
 <hr>
+
 ### map-longest
 
 `(map-longest fn & colls)`
@@ -86,6 +88,7 @@ Opposite of map. On multiple collections will iterate until
 ;;          (list 5 nil 14))
 ```
 <hr>
+
 ### filter-map-key
 
 `(filter-map-key filter-fn some-map)`
@@ -100,6 +103,7 @@ Will filter on key of a hashmap
 ;; => {:1 1}
 ```
 <hr>
+
 ### filter-map-val
 
 `(filter-map-val filter-fn some-map)`
@@ -114,6 +118,7 @@ WIll filter on value of a hashmap
 ;; => {:1 1}
 ```
 <hr>
+
 ### jaccard-words
 
 `(jaccard-words some-str some-another-str)`
@@ -137,6 +142,7 @@ Calculate Jaccard distance between two strings split by space
 ;; => 1
 ```
 <hr>
+
 ### map-val
 
 `(map-val f m)`
@@ -151,6 +157,7 @@ Will execute function over value of the map
 ;; => {:1 2, :2 3}
 ```
 <hr>
+
 ### pad-numbers
 
 `(pad-numbers n c pad-symbol)`
@@ -165,6 +172,7 @@ Pad numbers - takes a number and the length to pad to as arguments
 ;; => "1234567000"
 ```
 <hr>
+
 ### jaccard
 
 `(jaccard a b)`
@@ -188,6 +196,7 @@ Will calculate Jaccard distance over two sets
 ;; => 1
 ```
 <hr>
+
 ### nested-group-by
 
 `(nested-group-by fs coll & [final-fn])`
@@ -209,6 +218,7 @@ From: https://stackoverflow.com/a/38842018/3362518
 ;;     "B" {2009 [["B" 2009 "Tom"]]}}
 ```
 <hr>
+
 ### pad-coll
 
 `(pad-coll n coll pad-with)`
@@ -226,6 +236,7 @@ Pad collection <coll> with <pad-with> until <n> is reached
 ;; => [3 4 "n/a" "n/a" "n/a" "n/a" "n/a" "n/a" "n/a" "n/a"]
 ```
 <hr>
+
 ### order-by-collection
 
 `(order-by-collection input order-coll)`
@@ -241,6 +252,7 @@ Will order input hashmap by order collection. Will append
 ;; => (list 47 12 1 34 87)
 ```
 <hr>
+
 ### invert-map
 
 `(invert-map dataset)`
@@ -266,6 +278,7 @@ Turn values into keys and reverse.
 ```
 <hr>
 
+
 ## Scales
 
 ### x-y->tile-lat-lon
@@ -285,6 +298,7 @@ Will calculate latitude and longitude coordinates of a map tile,
 ;; => [42.14405981155153 41.678009033203125]
 ```
 <hr>
+
 ### paginate
 
 `(paginate current last-item)`
@@ -308,6 +322,7 @@ Will create pagination based on
 ;; => (list "1" "..." "10" "11" "12" "13" "14" "..." "30")
 ```
 <hr>
+
 ### lat-lon->tile-x-y
 
 `(lat-lon->tile-x-y lat-deg lon-deg zoom)`
@@ -325,6 +340,7 @@ Will calculate X and Y coordinates of a map tile,
 ;; => [161421 97171]
 ```
 <hr>
+
 ### log-scale
 
 `(log-scale x1 x2 y1 y2 x)`
@@ -340,6 +356,7 @@ Will calculate log scaling (mapping)
 ;; => (list 10 14 22 33 49)
 ```
 <hr>
+
 ### scale
 
 `(scale A B C D X)`
@@ -354,6 +371,7 @@ Will calculate linear scaling (mapping) from one metric into
 ;; => (list 10 20N 30N 40N 50)
 ```
 <hr>
+
 ### log-scale-round
 
 `(log-scale-round x1 x2 y1 y2 x)`
@@ -368,6 +386,7 @@ Will calculate rounded log scale
 ;; => (list 10.0 14.0 22.0 33.0 49.0)
 ```
 <hr>
+
 ### golden-ratio
 
 `(golden-ratio size step)`
@@ -385,6 +404,7 @@ Will calculate golden ratio
 ;; => (list 8 13 21 34 55 89 145 234 379)
 ```
 <hr>
+
 ### euclidean-distance
 
 `(euclidean-distance vec-a vec-b)`
@@ -400,6 +420,7 @@ Will calculate Euclidean distance between two vectors
 ;; => 8.0
 ```
 <hr>
+
 ### font-size-in-a-tag-cloud
 
 `(font-size-in-a-tag-cloud min-font-size max-font-size items-in-the-biggest-tag items)`
@@ -415,6 +436,7 @@ Will linearly calculate font size of a tag in a tag cloud.
 ;; => (list 5N 10N 15N 20N)
 ```
 <hr>
+
 ### tag-font-log-normalized
 
 `(tag-font-log-normalized items-in-the-biggest-tag items)`
@@ -429,6 +451,7 @@ Will non linearly calculate font size of a tag in a tag cloud
 ;; => (list 0.33 0.53 0.65 0.73 0.79 0.85 0.89 0.93 0.96)
 ```
 <hr>
+
 ### haversine
 
 `(haversine lat-1 lng-1 lat-2 lng-2)`<br>`(haversine lat-1 lng-1 lat-2 lng-2 radius)`
@@ -444,6 +467,7 @@ Will calculate Haversine distance between two points on a shphere
 ;; => 0.0237180780670015
 ```
 <hr>
+
 
 ## Strings
 
@@ -470,6 +494,7 @@ will intelligently truncate (without splitting words, with appending ... in the 
 ;; => "This ..."
 ```
 <hr>
+
 ### number->roman
 
 `(number->roman number-int)`
@@ -483,6 +508,7 @@ Number to Roman
 
 ```
 <hr>
+
 ### human-date
 
 `(human-date year month day)`
@@ -503,6 +529,7 @@ Will make a human readable date
 ;; => "First of January, 2000"
 ```
 <hr>
+
 ### pluralize->as-ies
 
 `(pluralize->as-ies root-str number-int)`
@@ -520,6 +547,7 @@ Pluralize English with -ies suffix
 ;; => "strawberries"
 ```
 <hr>
+
 ### number-ordinal->english
 
 `(number-ordinal->english number-int)`
@@ -534,6 +562,7 @@ Number ordinal to English
 ;; => "third"
 ```
 <hr>
+
 ### lorem-ipsum
 
 `(lorem-ipsum amount-of-words)`<br>`(lorem-ipsum amount-of-words rand-fn)`
@@ -550,6 +579,7 @@ Generate lorem ipsum of words of a given size
 ;; => (list "sed" "sed" "sed" "sed" "sed")
 ```
 <hr>
+
 ### remove-new-lines
 
 `(remove-new-lines datum)`
@@ -564,6 +594,7 @@ Will remove new lines from text
 ;; => "Hello                       world"
 ```
 <hr>
+
 ### pluralize->as-s
 
 `(pluralize->as-s root-str number-int)`
@@ -581,6 +612,7 @@ Pluralize English with -s suffix
 ;; => "friends"
 ```
 <hr>
+
 ### number->english
 
 `(number->english number-int)`
@@ -595,6 +627,7 @@ Number to English
 ;; => "three"
 ```
 <hr>
+
 
 ## Framerate
 
@@ -611,6 +644,7 @@ null
 
 ```
 <hr>
+
 ### number->frame-rate
 
 `(number->frame-rate frames frame-rate)`
@@ -629,6 +663,7 @@ Will take the amount of frames and frame rate.
 ```
 <hr>
 
+
 ## HTML
 
 ### styles-map->string
@@ -645,6 +680,7 @@ Will turn a map style of CSS into an inline style of CSS
 ;; => "background:green; color:white; font-weight:900;"
 ```
 <hr>
+
 ### gen-layout-class
 
 `(gen-layout-class pivot a b c)`
@@ -667,6 +703,7 @@ Will generate position specific class.
 ;;          "justify" "right")
 ```
 <hr>
+
 ### catcher
 
 `(catcher err-binding on-error & body)`
@@ -685,6 +722,7 @@ evaluates body, on error, creates an exception, that binds to a variable declare
 
 ```
 <hr>
+
 ### yes
 
 `(yes field & body)`
@@ -699,6 +737,7 @@ evaluates body, on error, creates an exception, that binds to a variable declare
 
 ```
 <hr>
+
 ### html->unescaped-html
 
 `(html->unescaped-html some-str)`
@@ -712,6 +751,7 @@ null
 
 ```
 <hr>
+
 ### backlet
 
 `(backlet text class-item)`
@@ -726,6 +766,7 @@ Will change last letter in hiccup form
 ;; => [:span "Hell" [:span {:class "blab"} "o"]]
 ```
 <hr>
+
 ### grid-amount
 
 `(grid-amount size amount)`
@@ -747,6 +788,7 @@ Percentage on classical grid. Size is the amount of blocks in a grid
 ;;          "87.5%" "93.75%")
 ```
 <hr>
+
 ### style
 
 `(style link)`
@@ -761,6 +803,7 @@ Will make style in a Hiccup syntax
 ;; => [:link {:href "some-link.css", :rel "stylesheet", :type "text/css"}]
 ```
 <hr>
+
 ### parse-sorting-field
 
 `(parse-sorting-field input)`
@@ -782,6 +825,7 @@ Will parse sorting field like this: (year | -year) (price | -price) (age | -age)
 ;; => {:field :blab, :inverse? false}
 ```
 <hr>
+
 ### inlet
 
 `(inlet text text-class)`
@@ -796,6 +840,7 @@ Will change first letter in hiccup form
 ;; => [:span [:span {:class "blab"} "H"] "ello"]
 ```
 <hr>
+
 
 ## Transliterate
 
@@ -812,6 +857,7 @@ null
 
 ```
 <hr>
+
 ### latin-str->cyrillic
 
 `(latin-str->cyrillic phrase-str)`
@@ -825,6 +871,7 @@ null
 
 ```
 <hr>
+
 
 ## FS
 
@@ -841,6 +888,7 @@ null
 
 ```
 <hr>
+
 ### zip-dir
 
 `(zip-dir archive-name directory)`
@@ -854,6 +902,7 @@ will zip directory into a folder
 
 ```
 <hr>
+
 
 ## License
 
