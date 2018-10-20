@@ -91,11 +91,10 @@
      "\n"
      (for [[header title] (gen-list-of-toc datum)]
        (str
-        (apply str (repeat  (count header) " "))
-        " * "
+        (apply str (repeat  (- (* 4 (count header)) 4) " "))
+        "* "
         "["  (clojure.string/trim title) "]"
         "(#" (str-utils/slugify title) ")"))))))
-
 
 (comment
   (spit "README.md"  (gen-toc (wrap-replace-make))))
