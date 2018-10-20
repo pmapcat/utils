@@ -33,20 +33,16 @@ Will turn a list of hashmaps into a sparse table.
 Usage:
 ```clojure
 (require '[thereisnodot.utils.collections :refer [hashmaps->sparse-table]])
-(hashmaps->sparse-table
-  [{:hello "world", :blab "blip", :blop "12"}
-   {:1 "asd", :2 "zc", :hello "nothing"}])
+(hashmaps->sparse-table [{:hello "world", :blab "blip", :blop "12"}
+                         {:1 "asd", :2 "zc", :hello "nothing"}])
 ;; => (list (list "hello" "blab" "blop" "1" "2")
 ;;          (list "world" "blip" "12" nil nil)
 ;;          (list "nothing" nil nil "asd" "zc"))
 
-(hashmaps->sparse-table
-  [{:name "hello", :surname "world"}
-   {:name "blab",
-    :surname "blip",
-    :whatever "blop"}]
-  "n/a"
-  [:whatever :name :surname])
+(hashmaps->sparse-table [{:name "hello", :surname "world"}
+                         {:name "blab", :surname "blip", :whatever "blop"}]
+                        "n/a"
+                        [:whatever :name :surname])
 ;; => (list (list "whatever" "name" "surname")
 ;;          (list "n/a" "hello" "world")
 ;;          (list "blop" "blab" "blip"))
@@ -63,9 +59,7 @@ Provide metadata in the form {:index :last? :first?} on a collection
 Usage:
 ```clojure
 (require '[thereisnodot.utils.collections :refer [meta-iterate]])
-(for [[item meta-item] (meta-iterate (range 10
-                                            14))]
-  [item meta-item])
+(for [[item meta-item] (meta-iterate (range 10 14))] [item meta-item])
 ;; => (list [10 {:index 0, :last? false, :first? true}]
 ;;          [11 {:index 1, :last? false, :first? false}]
 ;;          [12 {:index 2, :last? false, :first? false}]
@@ -85,10 +79,7 @@ Opposite of map. On multiple collections will iterate until
 Usage:
 ```clojure
 (require '[thereisnodot.utils.collections :refer [map-longest]])
-(map-longest list
-             (range 1 6)
-             (range 1 3)
-             (range 10 15))
+(map-longest list (range 1 6) (range 1 3) (range 10 15))
 ;; => (list (list 1 1 10)
 ;;          (list 2 2 11)
 ;;          (list 3 nil 12)
@@ -107,9 +98,7 @@ Will filter on key of a hashmap
 Usage:
 ```clojure
 (require '[thereisnodot.utils.collections :refer [filter-map-key]])
-(filter-map-key (fn* [p1__13327#]
-                  (= p1__13327# :1))
-                {:1 1, :2 2, :3 3})
+(filter-map-key (fn* [p1__12080#] (= p1__12080# :1)) {:1 1, :2 2, :3 3})
 ;; => {:1 1}
 ```
 
@@ -124,9 +113,7 @@ WIll filter on value of a hashmap
 Usage:
 ```clojure
 (require '[thereisnodot.utils.collections :refer [filter-map-val]])
-(filter-map-val (fn* [p1__13317#]
-                  (= p1__13317# 1))
-                {:1 1, :2 2, :3 3})
+(filter-map-val (fn* [p1__12070#] (= p1__12070# 1)) {:1 1, :2 2, :3 3})
 ;; => {:1 1}
 ```
 
@@ -141,8 +128,7 @@ Calculate Jaccard distance between two strings split by space
 Usage:
 ```clojure
 (require '[thereisnodot.utils.collections :refer [jaccard-words]])
-(jaccard-words "Hello my friend"
-               "goodbye my friend")
+(jaccard-words "Hello my friend" "goodbye my friend")
 ;; => 1/2
 
 (jaccard-words "hello nobody" "buy one")
@@ -182,7 +168,7 @@ Usage:
 ```clojure
 (require '[thereisnodot.utils.collections :refer [pad-numbers]])
 (pad-numbers 10 1234567 0)
-;; => 1234567000
+;; => "1234567000"
 ```
 
 
@@ -224,12 +210,10 @@ From: https://stackoverflow.com/a/38842018/3362518
 Usage:
 ```clojure
 (require '[thereisnodot.utils.collections :refer [nested-group-by]])
-(nested-group-by
-  [first second]
-  [["A" 2011 "Dan"] ["A" 2011 "Jon"]
-   ["A" 2010 "Tim"] ["B" 2009 "Tom"]])
-;; => {"A" {2010 [["A" 2010 "Tim"]],
-;;          2011 [["A" 2011 "Dan"] ["A" 2011 "Jon"]]},
+(nested-group-by [first second]
+                 [["A" 2011 "Dan"] ["A" 2011 "Jon"] ["A" 2010 "Tim"]
+                  ["B" 2009 "Tom"]])
+;; => {"A" {2010 [["A" 2010 "Tim"]], 2011 [["A" 2011 "Dan"] ["A" 2011 "Jon"]]},
 ;;     "B" {2009 [["B" 2009 "Tom"]]}}
 ```
 
@@ -248,8 +232,7 @@ Usage:
 ;; => [3 4 nil nil nil nil nil nil nil nil]
 
 (pad-coll 10 [3 4] "n/a")
-;; => [3 4 "n/a" "n/a" "n/a" "n/a" "n/a" "n/a" "n/a"
-;;     "n/a"]
+;; => [3 4 "n/a" "n/a" "n/a" "n/a" "n/a" "n/a" "n/a" "n/a"]
 ```
 
 
@@ -264,9 +247,7 @@ Will order input hashmap by order collection. Will append
 Usage:
 ```clojure
 (require '[thereisnodot.utils.collections :refer [order-by-collection]])
-(order-by-collection
-  {:a 1, :b 34, :c 87, :h 47, :d 12}
-  [:h :d])
+(order-by-collection {:a 1, :b 34, :c 87, :h 47, :d 12} [:h :d])
 ;; => (list 47 12 1 34 87)
 ```
 
@@ -285,9 +266,8 @@ Usage:
 (invert-map {:F [:a :b :n], :Q [:c :d :n]})
 ;; => {:a [:F], :b [:F], :c [:Q], :d [:Q], :n [:F :Q]}
 
-(invert-map {1 ["hello" "world"],
-             2 ["not" "important"],
-             3 ["very" "important" "thing"]})
+(invert-map
+  {1 ["hello" "world"], 2 ["not" "important"], 3 ["very" "important" "thing"]})
 ;; => {"hello" [1],
 ;;     "important" [2 3],
 ;;     "not" [2],
@@ -328,31 +308,15 @@ Usage:
 ```clojure
 (require '[thereisnodot.utils.scale :refer [paginate]])
 (paginate 1 3)
-;; => (list {:page-num 1,
-;;           :name "1",
-;;           :cur? true,
-;;           :first? true,
-;;           :last? false}
-;;          {:page-num 2,
-;;           :name "2",
-;;           :cur? false,
-;;           :first? false,
-;;           :last? false}
-;;          {:page-num 3,
-;;           :name "3",
-;;           :cur? false,
-;;           :first? false,
-;;           :last? true})
+;; => (list {:page-num 1, :name "1", :cur? true, :first? true, :last? false}
+;;          {:page-num 2, :name "2", :cur? false, :first? false, :last? false}
+;;          {:page-num 3, :name "3", :cur? false, :first? false, :last? true})
 
 (map :name (paginate 37 40))
 ;; => (list "1" "..." "35" "36" "37" "38" "39" "40")
 
 (map :name (paginate 12 30))
-;; => (list "1"
-;;          "..." "10"
-;;          "11" "12"
-;;          "13" "14"
-;;          "..." "30")
+;; => (list "1" "..." "10" "11" "12" "13" "14" "..." "30")
 ```
 
 
@@ -385,8 +349,7 @@ Will calculate log scaling (mapping)
 Usage:
 ```clojure
 (require '[thereisnodot.utils.scale :refer [log-scale]])
-(map int
-  (map (partial log-scale 1 5 10 50) (range 1 6)))
+(map int (map (partial log-scale 1 5 10 50) (range 1 6)))
 ;; => (list 10 14 22 33 49)
 ```
 
@@ -416,8 +379,7 @@ Will calculate rounded log scale
 Usage:
 ```clojure
 (require '[thereisnodot.utils.scale :refer [log-scale-round]])
-(map (partial log-scale-round 1 5 10 50)
-  (range 1 6))
+(map (partial log-scale-round 1 5 10 50) (range 1 6))
 ;; => (list 10.0 14.0 22.0 33.0 49.0)
 ```
 
@@ -467,8 +429,7 @@ Will linearly calculate font size of a tag in a tag cloud.
 Usage:
 ```clojure
 (require '[thereisnodot.utils.scale :refer [font-size-in-a-tag-cloud]])
-(map (partial font-size-in-a-tag-cloud 10 30 6)
-  (range 1 5))
+(map (partial font-size-in-a-tag-cloud 10 30 6) (range 1 5))
 ;; => (list 5N 10N 15N 20N)
 ```
 
@@ -483,13 +444,8 @@ Will non linearly calculate font size of a tag in a tag cloud
 Usage:
 ```clojure
 (require '[thereisnodot.utils.scale :refer [tag-font-log-normalized]])
-(map (partial tag-font-log-normalized 10)
-  (range 1 10))
-;; => (list 0.33
-;;          0.53 0.65
-;;          0.73 0.79
-;;          0.85 0.89
-;;          0.93 0.96)
+(map (partial tag-font-log-normalized 10) (range 1 10))
+;; => (list 0.33 0.53 0.65 0.73 0.79 0.85 0.89 0.93 0.96)
 ```
 
 
@@ -522,25 +478,17 @@ will intelligently truncate (without splitting words, with appending ... in the 
 Usage:
 ```clojure
 (require '[thereisnodot.utils.strings :refer [truncate-words-by-chars]])
-(truncate-words-by-chars
-  40
-  "This is a beautiful sunny day")
-;; => This
+(truncate-words-by-chars 40 "This is a beautiful sunny day")
+;; => "This is a beautiful sunny day"
 
-(truncate-words-by-chars
-  30
-  "This is a beautiful sunny day")
-;; => This
+(truncate-words-by-chars 30 "This is a beautiful sunny day")
+;; => "This is a beautiful sunny ..."
 
-(truncate-words-by-chars
-  20
-  "This is a beautiful sunny day")
-;; => This
+(truncate-words-by-chars 20 "This is a beautiful sunny day")
+;; => "This is a ..."
 
-(truncate-words-by-chars
-  10
-  "This is a beautiful sunny day")
-;; => This
+(truncate-words-by-chars 10 "This is a beautiful sunny day")
+;; => "This ..."
 ```
 
 
@@ -583,10 +531,10 @@ Usage:
 ```clojure
 (require '[thereisnodot.utils.strings :refer [pluralize->as-ies]])
 (pluralize->as-ies "strawberr" 1)
-;; => strawberry
+;; => "strawberry"
 
 (pluralize->as-ies "strawberr" 2)
-;; => strawberries
+;; => "strawberries"
 ```
 
 
@@ -601,7 +549,7 @@ Usage:
 ```clojure
 (require '[thereisnodot.utils.strings :refer [number-ordinal->english]])
 (number-ordinal->english 3)
-;; => third
+;; => "third"
 ```
 
 
@@ -633,9 +581,8 @@ Will remove new lines from text
 Usage:
 ```clojure
 (require '[thereisnodot.utils.strings :refer [remove-new-lines]])
-(remove-new-lines
-  "Hello\n                      world")
-;; => Hello
+(remove-new-lines "Hello\n                      world")
+;; => "Hello                       world"
 ```
 
 
@@ -650,10 +597,10 @@ Usage:
 ```clojure
 (require '[thereisnodot.utils.strings :refer [pluralize->as-s]])
 (pluralize->as-s "friend" 1)
-;; => friend
+;; => "friend"
 
 (pluralize->as-s "friend" 2)
-;; => friends
+;; => "friends"
 ```
 
 
@@ -668,7 +615,7 @@ Usage:
 ```clojure
 (require '[thereisnodot.utils.strings :refer [number->english]])
 (number->english 3)
-;; => three
+;; => "three"
 ```
 
 
@@ -716,10 +663,8 @@ Will turn a map style of CSS into an inline style of CSS
 Usage:
 ```clojure
 (require '[thereisnodot.utils.html :refer [styles-map->string]])
-(styles-map->string {:background "green",
-                     :color "white",
-                     :font-weight "900"})
-;; => background:green
+(styles-map->string {:background "green", :color "white", :font-weight "900"})
+;; => "background:green; color:white; font-weight:900;"
 ```
 
 
@@ -737,9 +682,7 @@ Will generate position specific class.
 Usage:
 ```clojure
 (require '[thereisnodot.utils.html :refer [gen-layout-class]])
-(take 9
-      (gen-layout-class 3 "left"
-                        "justify" "right"))
+(take 9 (gen-layout-class 3 "left" "justify" "right"))
 ;; => (list "left"
 ;;          "justify" "right"
 ;;          "left" "justify"
@@ -844,10 +787,7 @@ Usage:
 ```clojure
 (require '[thereisnodot.utils.html :refer [style]])
 (style "some-link.css")
-;; => [:link
-;;     {:href "some-link.css",
-;;      :rel "stylesheet",
-;;      :type "text/css"}]
+;; => [:link {:href "some-link.css", :rel "stylesheet", :type "text/css"}]
 ```
 
 

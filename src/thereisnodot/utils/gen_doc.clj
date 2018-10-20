@@ -8,8 +8,8 @@
 (ns
     ^{:doc "A documentation generation system"
       :author "Michael Leachim"}
-    thereisnodot.utils.gen-doc
-  (:require [zprint.core :as zp]))
+    thereisnodot.utils.gen-doc)
+
 (defn- multiline-comment
   [some-item]
   (clojure.string/replace some-item #"\n" "\n;;    "))
@@ -19,8 +19,7 @@
    (apply
     str
     (for [[fn-call _ result] item-meta]
-      
-      (str (zp/zprint-str  (read-string fn-call) 50) "\n;; => "  (multiline-comment (zp/zprint-str  (read-string result) 50)) "\n\n")))))
+      (str fn-call  "\n;; => "  (multiline-comment result) "\n\n")))))
 
 (defn- gen-params
   [item-name arglist]
@@ -76,8 +75,9 @@ Usage:
      (.replace "{{transliterate}}" (gen-template-on-ns 'thereisnodot.utils.transliterate))
      (.replace "{{fs}}"            (gen-template-on-ns 'thereisnodot.utils.fs)))))
 
-
-
 (comment
+  (let [testfn (:test (meta (last (first (ns-publics 'thereisnodot.utils.scale)))))]
+    (zp/zprint-fn testfn))
+  
   (spit "README.md" (wrap-replace-make)))
 
