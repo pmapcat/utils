@@ -24,10 +24,10 @@
 (defn- gen-params
   [item-name arglist]
   (clojure.string/trim-newline
-   (apply
-    str
+   (clojure.string/join
+    "<br>"
     (for [i arglist]
-      (str "`" (cons item-name i) "`" "<br>")))))
+      (str "`" (cons item-name i) "`")))))
 
 (defn- gen-single-fn
   [{:keys [name arglists doc ns name] :as datum}]
@@ -41,8 +41,7 @@
 
 %s
 ```
-<hr>
-" name (gen-params name arglists) doc ns name (gen-example (:akronim/example datum))))
+<hr>" name (gen-params name arglists) doc ns name (gen-example (:akronim/example datum))))
 
 (defn- gen-template-on-ns
   [namespace]
