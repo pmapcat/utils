@@ -6,7 +6,8 @@
 ;; @@@@@@ At 2018-13-10 20:27 <mklimoff222@gmail.com> @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
 (ns thereisnodot.utils.fs
-  (:require [clojure.java.io :as io])
+  (:require [clojure.java.io :as io]
+            [thereisnodot.akronim.core :refer [defns]])
   (:import  [java.util.zip ZipOutputStream ZipEntry]))
 
 (defn temp-file
