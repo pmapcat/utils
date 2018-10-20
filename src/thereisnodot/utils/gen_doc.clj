@@ -27,7 +27,7 @@
    (apply
     str
     (for [i arglist]
-      (str "`" (cons item-name i) "`" "\n")))))
+      (str "`" (cons item-name i) "`" "<br>")))))
 
 (defn- gen-single-fn
   [{:keys [name arglists doc ns name] :as datum}]
