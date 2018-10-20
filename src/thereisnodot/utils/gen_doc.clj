@@ -32,7 +32,7 @@
 
 (defn- gen-single-fn
   [{:keys [name arglists doc ns name] :as datum}]
-  (format "### %s 
+  (format "#### %s 
 [top](#table-of-contents)
 %s
 
@@ -84,20 +84,21 @@
     [hashtag title]))
 
 (defn- gen-toc
-  [datum]
-  (.replace
-   datum
-   "{{toc}}"
-   (str
-    (clojure.string/join
-     "\n"
-     (for [[header title] (gen-list-of-toc datum)]
-       (str
-        (apply str (repeat  (- (* 4 (count header)) 4) " "))
-        "* "
-        "["  (clojure.string/trim title) "]"
-        "(#" (str-utils/slugify title) ")"))))))
+  ([datum]
+   (gen-toc datum 1))
+  ([datum since]
+   (->>
+    (for [[header title] (gen-list-of-toc datum)]
+      (if (< (count header) since) ""
+          (str
+           (apply str (repeat  (- (* 4 (count header)) (* since  4)) " "))
+           "* "
+           "["  (clojure.string/trim title) "]"
+           "(#" (str-utils/slugify title) ")\n")))
+    (clojure.string/join "")
+    (str)
+    (.replace datum "{{toc}}" ))))
 
 (comment
-  (spit "README.md"  (gen-toc (wrap-replace-make))))
+  (spit "README.md"  (gen-toc (wrap-replace-make) 3)))
 
