@@ -6,7 +6,9 @@ See table of contents.
 
 ## Installation 
 Put 
+
 [![Clojars Project](https://clojars.org/thereisnodot/utils/latest-version.svg)](https://clojars.org/thereisnodot/utils) 
+
 to your `project.clj`
 
 ### Documentation
