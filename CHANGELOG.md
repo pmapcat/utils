@@ -3,8 +3,17 @@ All notable changes to this project will be documented in this file. This change
 
 ## [Unreleased]
 ### Changed
-- TODO: add docstring with Example metadata for every function you want to export. 
-- Fork Codox and make it output data in the markdown format. (Basically, readme generator)
-- 
 
-<!-- [0.1.1]: https://github.com/your-name/utils/compare/0.1.0...0.1.1 -->
+## [0.1.0] 2018-10-21
+### Added
+- transliterate
+- strings
+- spreadsheets
+- scale
+- reading_time
+- markdown
+- html
+- fs
+- framerate
+- css
+- collections
