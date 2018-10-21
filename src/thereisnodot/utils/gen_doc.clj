@@ -52,7 +52,7 @@
   (clojure.string/join
    ""
    (for [[_ reference] (ns-publics namespace)]
-     (when (:test (meta reference))
+     (when (:akronim/example (meta reference))
        (str (gen-single-fn (meta reference)) "\n")))))
 
 (require '[thereisnodot.utils.scale]

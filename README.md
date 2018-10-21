@@ -88,6 +88,8 @@ for generation mechanics
     * [cyrillic-str->latin](#cyrillic-str-latin)
     * [latin-str->cyrillic](#latin-str-cyrillic)
 * [FS](#fs)
+    * [temp-file](#temp-file)
+    * [zip-dir](#zip-dir)
 
 
 ### CSS
@@ -1205,6 +1207,36 @@ Primitive transliteration of latin to cyrillic
 
 
 ### FS
+
+#### temp-file 
+[top](#table-of-contents)
+`(temp-file)`<br>`(temp-file prefix extension)`
+
+Will return temp file handler without actually making it
+
+**Usage:**
+```clojure
+(require '[thereisnodot.utils.fs :refer [temp-file]])
+
+(str (temp-file))
+;; => "/tmp/cljtmpfile1555885885588503551"
+```
+<hr>
+
+#### zip-dir 
+[top](#table-of-contents)
+`(zip-dir archive-name directory)`
+
+will zip directory into a folder
+
+**Usage:**
+```clojure
+(require '[thereisnodot.utils.fs :refer [zip-dir]])
+
+(zip-dir "/home/mik/Downloads/alacritty.zip" "/home/mik/Downloads/alacritty")
+;; => nil
+```
+<hr>
 
 
 
