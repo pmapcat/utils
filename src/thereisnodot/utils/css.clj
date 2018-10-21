@@ -96,7 +96,8 @@
 
 (defns inline-css-of-a-html
   "
-The implementation is based upon: 
+The implementation is based upon:  https://stackoverflow.com/a/4521740/3362518
+
 Will inline css of a given HTML string
 Does not take into account linked CSS (CSS that is passed through `link` HTML tag) 
 Available params are: `:silent?`, `:strip-class?`, `:delete-style?`
