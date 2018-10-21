@@ -88,6 +88,7 @@
    Those which specified, will go first in the specified order.
 
    See tests for more examples"
+  {:no-test? true}
   [(excel-spit
     "/tmp/thereisnodot.utils7945546543919997425.xlsx"
     {"sheet1" (list {:first_column "a1" :secon_column "no one" :third_column "works on this"}

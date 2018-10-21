@@ -10,40 +10,20 @@
             [thereisnodot.utils.css :as css])
   (:import [org.jsoup.select Selector$SelectorParseException]))
 
-;; "<style>.demo-class {background:green;}</style>
-;; <div class='demo-class'>Hello</div>"
-;; (println
-;;  (first
-;;   (html->inlined-css-html
-;;    "<div>
-;;      <style>.demo-class {background:green;}</style>
-;;      <div class='demo-class'>Hello</div>
-;;    </div>"
-   
-;; "<html>
-;;  <head></head>
-;;  <body>
-;;   <div>  
-;;    <div style=\"background:green\">
-;;     Hello
-;;    </div> 
-;;   </div> 
-;;  </body>
-;; </html>"
-;; )))
+(deftest test-inlines-within-namespace
+  (doseq [[symbol access] (ns-publics 'thereisnodot.utils.css)]
+    (testing (str "Testing inlines of: " symbol)
+      (is (=  (test access) :ok)))))
 
 
 (deftest test-html->inlined-css-html
   (let [src (-> "demo.html" clojure.java.io/resource slurp)]
     (testing "General workage. (Demo expects some @media errors). But, nevertheless, output should exist"
-      (let [[html errors] (css/html->inlined-css-html src)]
+      (let [[html errors] (css/inline-css-of-a-html src)]
         (is (= (not (empty? errors)) true))
-        (is (= (not (empty? html)) true))
-        ;; (spit "/home/mik/aga.html" html)
-        ))
-    
+        (is (= (not (empty? html)) true))))
     (testing "Non silent should throw a @media parsing error"
       ;; should just check this stff visually. There is no point
       ;; in doing it harder
       (is (thrown? Selector$SelectorParseException
-                   (css/html->inlined-css-html src {:silent? false}))))))
+                   (css/inline-css-of-a-html src {:silent? false}))))))

@@ -1,14 +1,15 @@
 ;; @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-;; @ Copyright (c) Michael Leachim                                                      @
+;; @ Copyright (c) Michael Leahcim                                                      @
 ;; @ You can find additional information regarding licensing of this work in LICENSE.md @
 ;; @ You must not remove this notice, or any other, from this software.                 @
 ;; @ All rights reserved.                                                               @
-;; @@@@@@ At 2018-15-10 23:23 <mklimoff222@gmail.com> @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+;; @@@@@@ At 2018-10-21 21:12 <thereisnodotcollective@gmail.com> @@@@@@@@@@@@@@@@@@@@@@@@
 
 (ns
     ^{:author "Michael Leahcim"
-      :doc    "CSS inliner for HTML"}
+      :doc    "CSS inliner for HTML. Based on "}
     thereisnodot.utils.css
+  (:require [thereisnodot.akronim.core :refer [defns]])
   (:import [org.jsoup Jsoup]
            [org.jsoup.nodes Document Element]
            [org.jsoup.select Elements Selector]
@@ -69,7 +70,6 @@
     (join-styles $ (:rule item))
     (html->set-attr "style" $ element)))
 
-
 (defn- html->inlined-css-html-function
   [html params]
   (let [{:keys [silent? delete-style? strip-class?]} (merge  {:silent? true :strip-class? true :delete-style? true} params)
@@ -92,13 +92,39 @@
            (html->del-attr "class" el)))
        (if silent?
          [(html->string html) @err-collector]
-         (html->string html)))))
+         [(html->string html) @err-collector]))))
 
-(defn html->inlined-css-html
-  "Will inline css in a given HTML
-   Available params are: 
-   :silent? :strip-class? :delete-style?"
-  ([html]
-   (html->inlined-css-html html {}))
-  ([html  params]
-   (html->inlined-css-html-function html params)))
+(defns inline-css-of-a-html
+  "
+The implementation is based upon: 
+Will inline css of a given HTML string
+Does not take into account linked CSS (CSS that is passed through `link` HTML tag) 
+Available params are: `:silent?`, `:strip-class?`, `:delete-style?`
+
+* `:silent?` (`true` by default) will suppress potential errors e.g. (@media selectors), 
+   and continue inlining. When set to `false` will throw `SelectorParseException`
+* `:strip-class?` (`true` by default)  will remove classes from the html
+* `:delete-style?` (`true` by default) will remove `style` tags from the source
+
+In case of `:silent?` will return a vector of two. First with inlined HTML, second
+with errors that occured during inlining"
+  [(first (inline-css-of-a-html "<style>.demo-class {background:green;}</style>
+<div class='demo-class'>Hello</div>"))
+   =>
+   "<html>
+ <head> 
+ </head>
+ <body>
+  <div style=\"background:green\">
+   Hello
+  </div>
+ </body>
+</html>"]
+  ([html-string]
+   (inline-css-of-a-html html-string {}))
+  ([html-string params]
+   (html->inlined-css-html-function html-string params)))
+
+
+
+
