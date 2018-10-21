@@ -23,9 +23,6 @@ for generation mechanics
 
 
 ## Table of contents
-* [CSS](#css)
-* [Markdown](#markdown)
-    * [text->html](#text-html)
 * [Spreadsheets](#spreadsheets)
     * [excel-slurp](#excel-slurp)
     * [excel-spit](#excel-spit)
@@ -90,41 +87,11 @@ for generation mechanics
 * [FS](#fs)
     * [temp-file](#temp-file)
     * [zip-dir](#zip-dir)
+* [Markdown](#markdown)
+    * [text->html](#text-html)
+* [CSS](#css)
+    * [inline-css-of-a-html](#inline-css-of-a-html)
 
-
-### CSS
-### Markdown
-#### text->html 
-[top](#table-of-contents)
-`(text->html text)`<br>`(text->html text params)`
-
-Will translate markdown text into HTML.
-   This is a thin wrapper over: https://github.com/atlassian/commonmark-java
-   The following extensions are enabled by default:
-
-   * Yaml metadata extraction `YamlFrontMatterExtension`
-   * `InsExtension`. Underlining of text by enclosing it in ++.
-   * Heading anchors via `HeadingAnchorExtension`
-   * Tables using pipes, as in: [Github Flavored Markdown](https://help.github.com/articles/organizing-information-with-tables/)
-   * Strikethrough of text by enclosing it in ~~ via `StrikethroughExtension`
-   * Autolink: turns plain links such as URLS into links via `AutolinkExtension`
-
-   The main reason behind using wrapper because 
-   commonmark implementation doesn't have problems with embedded HTML parsing. 
-
-   The parameters currently only encode `:keywordize-keys?` field
-
-**Usage:**
-```clojure
-(require '[thereisnodot.utils.markdown :refer [text->html]])
-
-(text->html
-  "\n---\nhello: world\nblab:  blip\nblop:  blop\n---\n# This is a library\n## And here is its link\n\nhttps://github.com/MichaelLeachim/utils\n")
-;; => {:html
-;;       "<h1 id=\"this-is-a-library\">This is a library</h1>\n<h2 id=\"and-here-is-its-link\">And here is its link</h2>\n<p><a href=\"https://github.com/MichaelLeachim/utils\">https://github.com/MichaelLeachim/utils</a></p>\n",
-;;     :meta {:blab ["blip"], :blop ["blop"], :hello ["world"]}}
-```
-<hr>
 
 
 ### Spreadsheets
@@ -1237,6 +1204,73 @@ will zip directory into a folder
 ;; => nil
 ```
 <hr>
+
+
+
+### Markdown
+#### text->html 
+[top](#table-of-contents)
+`(text->html text)`<br>`(text->html text params)`
+
+Will translate markdown text into HTML.
+   This is a thin wrapper over: https://github.com/atlassian/commonmark-java
+   The following extensions are enabled by default:
+
+   * Yaml metadata extraction `YamlFrontMatterExtension`
+   * `InsExtension`. Underlining of text by enclosing it in ++.
+   * Heading anchors via `HeadingAnchorExtension`
+   * Tables using pipes, as in: [Github Flavored Markdown](https://help.github.com/articles/organizing-information-with-tables/)
+   * Strikethrough of text by enclosing it in ~~ via `StrikethroughExtension`
+   * Autolink: turns plain links such as URLS into links via `AutolinkExtension`
+
+   The main reason behind using wrapper because 
+   commonmark implementation doesn't have problems with embedded HTML parsing. 
+
+   The parameters currently only encode `:keywordize-keys?` field
+
+**Usage:**
+```clojure
+(require '[thereisnodot.utils.markdown :refer [text->html]])
+
+(text->html
+  "\n---\nhello: world\nblab:  blip\nblop:  blop\n---\n# This is a library\n## And here is its link\n\nhttps://github.com/MichaelLeachim/utils\n")
+;; => {:html
+;;       "<h1 id=\"this-is-a-library\">This is a library</h1>\n<h2 id=\"and-here-is-its-link\">And here is its link</h2>\n<p><a href=\"https://github.com/MichaelLeachim/utils\">https://github.com/MichaelLeachim/utils</a></p>\n",
+;;     :meta {:blab ["blip"], :blop ["blop"], :hello ["world"]}}
+```
+<hr>
+
+
+### CSS
+#### inline-css-of-a-html 
+[top](#table-of-contents)
+`(inline-css-of-a-html html-string)`<br>`(inline-css-of-a-html html-string params)`
+
+
+The implementation is based upon: 
+Will inline css of a given HTML string
+Does not take into account linked CSS (CSS that is passed through `link` HTML tag) 
+Available params are: `:silent?`, `:strip-class?`, `:delete-style?`
+
+* `:silent?` (`true` by default) will suppress potential errors e.g. (@media selectors), 
+   and continue inlining. When set to `false` will throw `SelectorParseException`
+* `:strip-class?` (`true` by default)  will remove classes from the html
+* `:delete-style?` (`true` by default) will remove `style` tags from the source
+
+In case of `:silent?` will return a vector of two. First with inlined HTML, second
+with errors that occured during inlining
+
+**Usage:**
+```clojure
+(require '[thereisnodot.utils.css :refer [inline-css-of-a-html]])
+
+(first
+  (inline-css-of-a-html
+    "<style>.demo-class {background:green;}</style>\n<div class='demo-class'>Hello</div>"))
+;; => "<html>\n <head> \n </head>\n <body>\n  <div style=\"background:green\">\n   Hello\n  </div>\n </body>\n</html>"
+```
+<hr>
+
 
 
 

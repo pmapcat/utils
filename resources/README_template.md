@@ -25,9 +25,7 @@ for generation mechanics
 ## Table of contents
 {{toc}}
 
-### CSS
-### Markdown
-{{markdown}}
+
 ### Spreadsheets
 {{spreadsheets}}
 
@@ -62,6 +60,12 @@ for generation mechanics
 ### FS
 
 {{fs}}
+
+### Markdown
+{{markdown}}
+### CSS
+{{css}}
+
 
 ## Development
 
