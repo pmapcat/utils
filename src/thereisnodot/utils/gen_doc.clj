@@ -64,13 +64,15 @@
          '[thereisnodot.utils.fs]
          '[thereisnodot.utils.reading-time]
          '[thereisnodot.utils.markdown]
-         '[thereisnodot.utils.spreadsheets])
+         '[thereisnodot.utils.spreadsheets]
+         '[thereisnodot.utils.css])
 
 (defn- wrap-replace-make
   []
   (let [template (slurp  (clojure.java.io/resource "README_template.md"))]
     (->
      template
+     (.replace "{{css}}"           (gen-template-on-ns 'thereisnodot.utils.css))
      (.replace "{{scale}}"         (gen-template-on-ns 'thereisnodot.utils.scale))
      (.replace "{{markdown}}"      (gen-template-on-ns 'thereisnodot.utils.markdown))
      (.replace "{{collections}}"   (gen-template-on-ns 'thereisnodot.utils.collections))
