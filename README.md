@@ -76,8 +76,6 @@ for generation mechanics
 * [Framerate](#framerate)
     * [number->duration](#number-duration)
     * [duration->string](#duration-string)
-    * [number->frame-rate](#number-frame-rate)
-    * [frame-rate-obj->string](#frame-rate-obj-string)
 * [HTML](#html)
     * [styles-map->string](#styles-map-string)
     * [gen-layout-class](#gen-layout-class)
@@ -1016,45 +1014,14 @@ Will format framerate into a string
 ```clojure
 (require '[thereisnodot.utils.framerate :refer [duration->string]])
 
-(frame-rate-obj->string {:hours 1, :minutes 12, :seconds 13, :frames 11})
+(duration->string {:hours 1, :minutes 12, :seconds 13, :frames 11})
 ;; => "01h 12m 13s 11fr"
 
-(frame-rate-obj->string {:hours 0, :minutes 0, :seconds 0, :frames 0})
+(duration->string {:hours 0, :minutes 0, :seconds 0, :frames 0})
 ;; => "00:00"
-```
-<hr>
 
-#### number->frame-rate 
-[top](#table-of-contents)
-`(number->frame-rate frames)`<br>`(number->frame-rate frames frame-rate)`
-
-Will take the amount of frames and frame rate.
-   Will output the amount of 
-   `:hours`, `:minutes`,  `:seconds`, and `:frames`
-
-**Usage:**
-```clojure
-(require '[thereisnodot.utils.framerate :refer [number->frame-rate]])
-
-
-```
-<hr>
-
-#### frame-rate-obj->string 
-[top](#table-of-contents)
-`(frame-rate-obj->string item)`
-
-Will format framerate into a string
-
-**Usage:**
-```clojure
-(require '[thereisnodot.utils.framerate :refer [frame-rate-obj->string]])
-
-(frame-rate-obj->string {:hours 1, :minutes 12, :seconds 13, :frames 11})
-;; => "01h 12m 13s 11fr"
-
-(frame-rate-obj->string {:hours 0, :minutes 0, :seconds 0, :frames 0})
-;; => "00:00"
+(duration->string {:hours 0, :minutes 0, :seconds 250, :frames 0})
+;; => "250s"
 ```
 <hr>
 
