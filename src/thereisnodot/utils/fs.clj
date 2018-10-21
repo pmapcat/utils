@@ -1,9 +1,9 @@
 ;; @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-;; @ Copyright (c) Michael Leachim                                                      @
+;; @ Copyright (c) Michael Leahcim                                                      @
 ;; @ You can find additional information regarding licensing of this work in LICENSE.md @
 ;; @ You must not remove this notice, or any other, from this software.                 @
 ;; @ All rights reserved.                                                               @
-;; @@@@@@ At 2018-13-10 20:27 <mklimoff222@gmail.com> @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+;; @@@@@@ At 2018-10-20 21:49 <thereisnodotcollective@gmail.com> @@@@@@@@@@@@@@@@@@@@@@@@
 
 (ns thereisnodot.utils.fs
   (:require [clojure.java.io :as io]
@@ -11,6 +11,7 @@
   (:import  [java.util.zip ZipOutputStream ZipEntry]))
 
 (defn temp-file
+  "Will return temp file handler without actually making it"
   ([]
    (temp-file "cljtmpfile" ""))
   ([prefix extension]
