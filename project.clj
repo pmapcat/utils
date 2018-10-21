@@ -9,7 +9,7 @@
                  [org.jsoup/jsoup "1.8.3"]                 
                  [ring/ring-codec "1.1.1"]
                  [clojure-future-spec "1.9.0-alpha17"]
-                 [thereisnodot/akronim "0.1.2-SNAPSHOT"]
+                 [thereisnodot/akronim "0.1.2"]
                  [com.atlassian.commonmark/commonmark "0.11.0"]
                  [com.atlassian.commonmark/commonmark-ext-gfm-tables "0.11.0"]
                  [com.atlassian.commonmark/commonmark-ext-autolink "0.11.0"]

@@ -10,18 +10,25 @@
             [thereisnodot.akronim.core :refer [defns]])
   (:import  [java.util.zip ZipOutputStream ZipEntry]))
 
-(defn temp-file
+(defns temp-file
   "Will return temp file handler without actually making it"
+  {:no-test? true}
+  [(str (temp-file)) => "/tmp/cljtmpfile1555885885588503551"]
   ([]
    (temp-file "cljtmpfile" ""))
   ([prefix extension]
    (java.io.File/createTempFile prefix extension)))
 
-(defn zip-dir
+(defns zip-dir
   "will zip directory into a folder"
+  {:no-test? true}
+  [(zip-dir
+    "/home/mik/Downloads/alacritty.zip"
+    "/home/mik/Downloads/alacritty") => nil]
   [archive-name directory]
   (with-open [zip (ZipOutputStream. (io/output-stream archive-name))]
     (doseq [f (file-seq (io/file directory)) :when (.isFile f)]
       (.putNextEntry zip (ZipEntry. (.getPath f)))
       (io/copy f zip)
       (.closeEntry zip))))
+
