@@ -107,8 +107,7 @@ Available params are: `:silent?`, `:strip-class?`, `:delete-style?`
 * `:strip-class?` (`true` by default)  will remove classes from the html
 * `:delete-style?` (`true` by default) will remove `style` tags from the source
 
-In case of `:silent?` will return a vector of two. First with inlined HTML, second
-with errors that occured during inlining"
+will return a vector of two. First with inlined HTML, second with errors that occured during the inlining. In case of `:silent?` `false` the second vector will be empty. "
   [(first (inline-css-of-a-html "<style>.demo-class {background:green;}</style>
 <div class='demo-class'>Hello</div>"))
    =>
